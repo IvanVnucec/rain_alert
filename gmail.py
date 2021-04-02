@@ -4,18 +4,18 @@ from email import message_from_string
 
 
 class Gmail:
-    SSL_PORT = 465
-    SMTP_GMAIL = 'smtp.gmail.com'
+    __SSL_PORT = 465
+    __SMTP_GMAIL = 'smtp.gmail.com'
 
     def __init__(self, email, password) -> None:
         self.loginSuccessfull = False
         self.email = email
 
         context = ssl.create_default_context()
-        self.server = smtplib.SMTP_SSL(
-            self.SMTP_GMAIL, self.SSL_PORT, context=context)
+        self.__server = smtplib.SMTP_SSL(
+            self.__SMTP_GMAIL, self.__SSL_PORT, context=context)
         try:
-            self.server.login(self.email, password)
+            self.__server.login(self.email, password)
         except smtplib.SMTPAuthenticationError as error:
             exit('ERROR: Wrong username or password.')
         else:
@@ -24,7 +24,7 @@ class Gmail:
     def send(self, message, receiver_email):
         if self.loginSuccessfull:
             email_msg = message_from_string(message)
-            self.server.send_message(
+            self.__server.send_message(
                 email_msg, self.email, receiver_email)
         else:
             exit('ERROR: To send en email, you first need to login.')
