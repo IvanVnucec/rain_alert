@@ -16,7 +16,7 @@ def loadCredentials():
     openWeatherApiKey = os.getenv('env_openWeatherApiKey')
 
     if email == None or password == None or openWeatherApiKey == None:
-        # else try with .yaml file
+        print('INFO: No credentials in environments variables, trying with credentials.yaml file...')
         try:
             with open(YAML_FILE_PATH, 'r') as file:
                 credentials = yaml.load(file, Loader=yaml.FullLoader)
