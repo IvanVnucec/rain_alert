@@ -11,6 +11,7 @@ class OpenWeather:
     __ZAGREB_LON = '15.9666'
 
     def __init__(self, apiKey) -> None:
+        self.rainStartHour = None
         self.__apiUrl = 'http://api.openweathermap.org/data/2.5/onecall?'\
             f'&lat={self.__ZAGREB_LAT}'\
             f'&lon={self.__ZAGREB_LON}'\

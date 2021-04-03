@@ -1,3 +1,4 @@
 env
 __pycache__
-credentials.yaml
+CREDENTIALS.yaml
+RECEIVERS.txt

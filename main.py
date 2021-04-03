@@ -1,12 +1,19 @@
+import utils
 from gmail import Gmail
 from open_weather import OpenWeather
-from load_credentials import loadCredentials
 
-emailToSend, password, openWeatherApiKey, emailToReceive = loadCredentials()
+sender, password, openWeatherApiKey = utils.load_credentials()
 
-gmail = Gmail(emailToSend, password)
+gmail = Gmail(sender, password)
 openWeather = OpenWeather(openWeatherApiKey)
 
-if openWeather.will_rain_today():
+receivers = utils.load_emails()
+
+if openWeather.will_rain_today() == False:
+    subject = 'Rain today'
     msg = f'Rain today at {openWeather.rainStartHour}.'
-    gmail.send(msg, emailToReceive)
+
+    gmail.send(receivers, subject, msg)
+
+else:
+    print('INFO: No rain today.')
