@@ -1,8 +1,9 @@
 name: CI
 
 on:
+  # Run every day at 3:00 UTC time (Zagreb 5:00 local time)
   schedule:
-    - cron:  '0 5 * * *'
+    - cron:  '0 3 * * *'
 
   workflow_dispatch:
 
@@ -16,6 +17,7 @@ jobs:
       - name: Check weather
         run: python3 main.py
         env: 
-          env_email: ${{ secrets.EMAIL }}
+          env_emailToSend: ${{ secrets.EMAIL_TO_SEND }}
           env_password: ${{ secrets.PASSWORD }}
-          env_openWeatherApiKey: ${{ secrets.OPENWEATHERAPIKEY }}
+          env_openWeatherApiKey: ${{ secrets.OPENWEATHER_API_KEY }}
+          env_emailToReceive: ${{ secrets.EMAIL_TO_RECEIVE }}
