@@ -14,8 +14,8 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Check weather
-        env: 
-          secret_email: ${{ secrets.EMAIL }}
-          secret_password: ${{ secrets.PASSWORD }}
-          secret_openWeatherApiKey: ${{ secrets.OPENWEATHERAPIKEY }}
         run: python3 main.py
+        env: 
+          env_email: ${{ secrets.EMAIL }}
+          env_password: ${{ secrets.PASSWORD }}
+          env_openWeatherApiKey: ${{ secrets.OPENWEATHERAPIKEY }}
