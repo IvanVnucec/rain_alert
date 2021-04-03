@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Create Credentials and Receivers files
-        with: 
+        env: 
           CREDENTIALS: ${{ secrets.CREDENTIALS }}
           RECEIVERS: ${{ secrets.RECEIVERS }}
         run: |
