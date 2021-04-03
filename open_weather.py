@@ -1,6 +1,5 @@
 import requests
 import json
-from geopy.geocoders import Nominatim
 from datetime import datetime
 
 
@@ -8,7 +7,6 @@ class OpenWeather:
     __DAY_START_HOUR = 6
     __DAY_END_HOUR = 23
     __RAIN_PROB_TRESH = 0.5
-    __GEOLOC_APP_NAME = 'Locator-request-app'
 
     def __init__(self, apiKey) -> None:
         self.__apiKey = apiKey
@@ -21,16 +19,12 @@ class OpenWeather:
 
         return response.json()
 
-    def _get_forecast_by_hour(self, location):
+    def _get_forecast_by_hour(self, latitude, longitude):
         forecastByHour = []
 
-        # get location based on location name (ex. 'New York')
-        geolocator = Nominatim(user_agent=self.__GEOLOC_APP_NAME)
-        geoLocation = geolocator.geocode(location)
-
         apiUrl = 'http://api.openweathermap.org/data/2.5/onecall?'\
-            f'&lat={geoLocation.latitude}'\
-            f'&lon={geoLocation.longitude}'\
+            f'&lat={latitude}'\
+            f'&lon={longitude}'\
             '&exclude=current,minutely,daily,alerts&units=metric'\
             f'&appid={self.__apiKey}'
 
@@ -41,11 +35,11 @@ class OpenWeather:
 
         for hour in byHours:
             unixTime = hour['dt'] + timezoneOffset
-            time = datetime.utcfromtimestamp(unixTime)
+            localTime = datetime.utcfromtimestamp(unixTime)
 
             rainProbability = hour['pop']
 
-            rainData = {'t': time, 'p': rainProbability}
+            rainData = {'t': localTime, 'p': rainProbability}
             forecastByHour.append(rainData)
 
         return forecastByHour
@@ -54,12 +48,10 @@ class OpenWeather:
         rainToday = False
         rainStartHour = None
 
-        forecastByHour = self._get_forecast_by_hour(location)
-
-        timeNow = datetime.now()
+        forecastByHour = self._get_forecast_by_hour(location.point.latitude, location.point.longitude)
 
         for hour in forecastByHour:
-            sameDayForecast = timeNow.day == hour['t'].day
+            sameDayForecast = location.localTime.day == hour['t'].day
             inDayTimeRange = hour['t'].hour >= self.__DAY_START_HOUR and hour['t'].hour <= self.__DAY_END_HOUR
             highRainProbability = hour['p'] >= self.__RAIN_PROB_TRESH
 
