@@ -8,5 +8,5 @@ gmail = Gmail(emailToSend, password)
 openWeather = OpenWeather(openWeatherApiKey)
 
 if openWeather.will_rain_today():
-    msg = f'Danas ce padati kisa u {openWeather.rainStartHour} sati.'
+    msg = f'Rain today at {openWeather.rainStartHour}.'
     gmail.send(msg, emailToReceive)
