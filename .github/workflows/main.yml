@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  schedule:
+    - cron:  '0 5 * * *'
+
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Check weather
+        env: 
+          secret_email: ${{ secrets.email }}
+          secret_password: ${{ secrets.password }}
+          secret_openWeatherApiKey: ${{ secrets.openWeatherApiKey }}
+        run: python3 main.py
