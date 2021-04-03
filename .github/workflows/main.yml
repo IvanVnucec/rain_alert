@@ -15,7 +15,7 @@ jobs:
       
       - name: Check weather
         env: 
-          secret_email: ${{ secrets.email }}
-          secret_password: ${{ secrets.password }}
-          secret_openWeatherApiKey: ${{ secrets.openWeatherApiKey }}
+          secret_email: ${{ secrets.EMAIL }}
+          secret_password: ${{ secrets.PASSWORD }}
+          secret_openWeatherApiKey: ${{ secrets.OPENWEATHERAPIKEY }}
         run: python3 main.py
