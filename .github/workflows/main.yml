@@ -21,8 +21,9 @@ jobs:
         run: |
           echo "$CREDENTIALS" > CREDENTIALS.yaml
           echo "$RECEIVERS" > RECEIVERS.txt
+
+      - name: Install requirements
+        run: python3 -m pip install -r requirements.txt 
       
       - name: Run main application
-        run: |
-          python -m pip install -r requirements.txt 
-          python3 main.py
+        run: python3 main.py
