@@ -9,7 +9,7 @@ openWeather = OpenWeather(openWeatherApiKey)
 
 receivers = utils.load_emails()
 
-if openWeather.will_rain_today() == False:
+if openWeather.will_rain_today():
     subject = 'Rain today'
     msg = f'Rain today at {openWeather.rainStartHour}.'
 
