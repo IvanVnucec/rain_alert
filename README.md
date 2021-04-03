@@ -1,8 +1,9 @@
 # rain_alert
-Send an email if it will be raining today. :umbrella:
+Every morning at 5 AM local time check if it will be raining on that day, if yes then remind me by sending me an email.
 
 ## Get started
-1. Create `CREDENTIALS.yaml` and put credentials as:
+0. Create Gmail account and enable the Less secure app access. 
+1. Create `CREDENTIALS.yaml` and put credentials:
 ```
 senderEmail: <sender Gmail email>
 senderPassword: <Gmail email password>
