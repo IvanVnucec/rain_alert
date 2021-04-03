@@ -7,13 +7,15 @@ sender, password, openWeatherApiKey = utils.load_credentials()
 gmail = Gmail(sender, password)
 openWeather = OpenWeather(openWeatherApiKey)
 
-receivers = utils.load_emails()
+receivers = utils.load_emails_and_locations()
 
-if openWeather.will_rain_today():
-    subject = 'Rain today'
-    msg = f'Rain today at {openWeather.rainStartHour}.'
+for receiver in receivers:
+    email = receiver['email']
+    location = receiver['location']
 
-    gmail.send(receivers, subject, msg)
+    rainToday, rainStart = openWeather.will_rain_today(location)
+    if rainToday:
+        subject = f'Rain today in {location}'
+        msg = f'Rain today at {rainStart}.'
 
-else:
-    print('INFO: No rain today.')
+        gmail.send(email, subject, msg)

@@ -1,35 +1,40 @@
 import requests
 import json
+from geopy.geocoders import Nominatim
 from datetime import datetime
 
 
 class OpenWeather:
     __DAY_START_HOUR = 6
-    __DAY_END_HOUR = 11
+    __DAY_END_HOUR = 23
     __RAIN_PROB_TRESH = 0.5
-    __ZAGREB_LAT = '45.8154'
-    __ZAGREB_LON = '15.9666'
+    __GEOLOC_APP_NAME = 'Locator-request-app'
 
     def __init__(self, apiKey) -> None:
-        self.rainStartHour = None
-        self.__apiUrl = 'http://api.openweathermap.org/data/2.5/onecall?'\
-            f'&lat={self.__ZAGREB_LAT}'\
-            f'&lon={self.__ZAGREB_LON}'\
-            '&exclude=current,minutely,daily,alerts&units=metric'\
-            f'&appid={apiKey}'
+        self.__apiKey = apiKey
 
-    def _get_data_from_api(self):
+    def _get_data_from_api(self, apiUrl):
         try:
-            response = requests.get(self.__apiUrl)
+            response = requests.get(apiUrl)
         except:
             exit('ERROR: OpenWeather API request failed.')
 
         return response.json()
 
-    def _get_forecast_by_hour(self):
+    def _get_forecast_by_hour(self, location):
         forecastByHour = []
 
-        data = self._get_data_from_api()
+        # get location based on location name (ex. 'New York')
+        geolocator = Nominatim(user_agent=self.__GEOLOC_APP_NAME)
+        geoLocation = geolocator.geocode(location)
+
+        apiUrl = 'http://api.openweathermap.org/data/2.5/onecall?'\
+            f'&lat={geoLocation.latitude}'\
+            f'&lon={geoLocation.longitude}'\
+            '&exclude=current,minutely,daily,alerts&units=metric'\
+            f'&appid={self.__apiKey}'
+
+        data = self._get_data_from_api(apiUrl)
 
         timezoneOffset = data['timezone_offset']
         byHours = data['hourly']
@@ -45,10 +50,12 @@ class OpenWeather:
 
         return forecastByHour
 
-    def will_rain_today(self):
-        forecastByHour = self._get_forecast_by_hour()
+    def will_rain_today(self, location):
+        rainToday = False
+        rainStartHour = None
 
-        # get time now
+        forecastByHour = self._get_forecast_by_hour(location)
+
         timeNow = datetime.now()
 
         for hour in forecastByHour:
@@ -57,7 +64,8 @@ class OpenWeather:
             highRainProbability = hour['p'] >= self.__RAIN_PROB_TRESH
 
             if sameDayForecast and inDayTimeRange and highRainProbability:
-                self.rainStartHour = hour['t'].hour
-                return True
+                rainToday = True
+                rainStartHour = hour['t'].hour
+                break
 
-        return False
+        return rainToday, rainStartHour

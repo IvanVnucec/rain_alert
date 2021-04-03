@@ -21,18 +21,15 @@ class Gmail:
         else:
             self.loginSuccessfull = True
 
-    def send(self, receivers, subject, message):
+    def send(self, receiver, subject, message):
         if self.loginSuccessfull:
-
-            for receiver in receivers:
-                msg = EmailMessage()
-                msg['From'] = self.sender
-                msg['Subject'] = subject
-                msg.set_content(message)
-                msg['To'] = receiver
-                self.__server.send_message(msg, self.sender, receiver)
+            msg = EmailMessage()
+            msg['From'] = self.sender
+            msg['Subject'] = subject
+            msg.set_content(message)
+            msg['To'] = receiver
             
-            self.__server.quit()
+            self.__server.send_message(msg, self.sender, receiver)
 
         else:
             exit('ERROR: To send en email, you first need to login.')
