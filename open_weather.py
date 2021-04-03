@@ -1,12 +1,16 @@
 import requests
 import json
 from datetime import datetime
+import pytz
 
 
 class OpenWeather:
     __DAY_START_HOUR = 6
     __DAY_END_HOUR = 23
     __RAIN_PROB_TRESH = 0.5
+    __ZAGREB_LAT = 45.815399
+    __ZAGREB_LON = 15.966568
+    __ZAGREB_TIMEZONE = 'Europe/Zagreb'
 
     def __init__(self, apiKey) -> None:
         self.__apiKey = apiKey
@@ -44,14 +48,16 @@ class OpenWeather:
 
         return forecastByHour
 
-    def will_rain_today(self, location):
+    def will_rain_today(self):
         rainToday = False
         rainStartHour = None
 
-        forecastByHour = self._get_forecast_by_hour(location.point.latitude, location.point.longitude)
+        forecastByHour = self._get_forecast_by_hour(self.__ZAGREB_LAT, self.__ZAGREB_LON)
+        
+        timeNow = datetime.now(pytz.timezone(self.__ZAGREB_TIMEZONE))
 
         for hour in forecastByHour:
-            sameDayForecast = location.localTime.day == hour['t'].day
+            sameDayForecast = timeNow.day == hour['t'].day
             inDayTimeRange = hour['t'].hour >= self.__DAY_START_HOUR and hour['t'].hour <= self.__DAY_END_HOUR
             highRainProbability = hour['p'] >= self.__RAIN_PROB_TRESH
 

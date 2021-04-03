@@ -2,7 +2,8 @@ name: Run application
 
 on:
   schedule:
-    - cron:  '15 * * * *'
+    # Run every day at 3:00 UTC time (5:00 Zagreb local time)
+    - cron:  '0 3 * * *'
 
   workflow_dispatch:
 
