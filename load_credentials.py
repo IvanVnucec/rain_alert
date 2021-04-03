@@ -1,16 +1,28 @@
 import yaml
+import os
 
+"""
+# credentials.yaml file format
+email: ...@gmail.com
+password: ...
+openWeatherApiKey: ...
+"""
+YAML_FILE_PATH = 'credentials.yaml'
 
-def loadCredentials(path):
-    email = None
-    password = None
+def loadCredentials():
+    # try with environment variables
+    email = os.getenv('env_email')
+    password = os.getenv('env_password')
+    openWeatherApiKey = os.getenv('env_openWeatherApiKey')
 
-    try:
-        with open(path, 'r') as file:
-            credentials = yaml.load(file, Loader=yaml.FullLoader)
+    if email == None or password == None or openWeatherApiKey == None:
+        # else try with .yaml file
+        try:
+            with open(YAML_FILE_PATH, 'r') as file:
+                credentials = yaml.load(file, Loader=yaml.FullLoader)
 
-    except FileNotFoundError:
-        exit('ERROR: credentials file not found.')
+        except FileNotFoundError:
+            exit('ERROR: credentials file not found.')
 
-    else:
-        return credentials['email'], credentials['password'], credentials['openWeatherApiKey']
+        else:
+            return credentials['email'], credentials['password'], credentials['openWeatherApiKey']

@@ -2,8 +2,7 @@ from gmail import Gmail
 from open_weather import OpenWeather
 from load_credentials import loadCredentials
 
-# load gmail credentials from credentials.yaml file
-email, password, openWeatherApiKey = loadCredentials('credentials.yaml')
+email, password, openWeatherApiKey = loadCredentials()
 
 gmail = Gmail(email, password)
 openWeather = OpenWeather(openWeatherApiKey)
