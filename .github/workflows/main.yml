@@ -3,7 +3,7 @@ name: Run application
 on:
   # Run every 30 min
   schedule:
-    - cron:  '30 * * * *'
+    - cron:  '*/45 * * * *'
 
   workflow_dispatch:
 
