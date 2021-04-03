@@ -1,6 +1,6 @@
 import smtplib
 import ssl
-from email import message_from_string
+from email.message import EmailMessage
 
 
 class Gmail:
@@ -23,8 +23,13 @@ class Gmail:
 
     def send(self, message, receiver_email):
         if self.loginSuccessfull:
-            email_msg = message_from_string(message)
+            email_msg = EmailMessage()
+            email_msg.set_content(message)
+            email_msg['Subject'] = message
+            email_msg['From'] = self.email
+            email_msg['To'] = receiver_email
             self.__server.send_message(
                 email_msg, self.email, receiver_email)
+            self.__server.quit()
         else:
             exit('ERROR: To send en email, you first need to login.')
