@@ -19,8 +19,8 @@ jobs:
           CREDENTIALS: ${{ secrets.CREDENTIALS }}
           RECEIVERS: ${{ secrets.RECEIVERS }}
         run: |
-          "$CREDENTIALS" > CREDENTIALS.yaml
-          "$RECEIVERS" > RECEIVERS.txt
+          echo "$CREDENTIALS" > CREDENTIALS.yaml
+          echo "$RECEIVERS" > RECEIVERS.txt
       
       - name: Run main application
         run: python3 main.py
