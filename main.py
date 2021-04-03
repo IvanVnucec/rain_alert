@@ -17,9 +17,10 @@ for receiver in receivers:
     locName = receiver['location']
 
     location = Location(locName)
+    localTime = location.get_local_time()
 
     # if local time to send an email
-    if location.localTime.hour == SEND_EMAIL_HOUR:
+    if localTime.hour == SEND_EMAIL_HOUR:
         rainToday, rainStart = openWeather.will_rain_today(location)
 
         if rainToday:
