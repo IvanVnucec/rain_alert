@@ -25,4 +25,8 @@ def loadCredentials():
             exit('ERROR: credentials file not found.')
 
         else:
-            return credentials['email'], credentials['password'], credentials['openWeatherApiKey']
+            email = credentials['email']
+            password = credentials['password']
+            openWeatherApiKey = credentials['openWeatherApiKey']
+    
+    return email, password, openWeatherApiKey
