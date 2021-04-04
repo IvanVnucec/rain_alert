@@ -10,6 +10,8 @@ openWeather = OpenWeather(openWeatherApiKey)
 receivers = utils.load_emails()
 
 for receiver in receivers:
+    # TODO: implement will_rain_today function here.
+    # openWeather object should only get data.
     rainToday, rainStart = openWeather.will_rain_today()
 
     if rainToday:
