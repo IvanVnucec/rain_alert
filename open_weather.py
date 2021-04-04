@@ -4,8 +4,8 @@ from datetime import datetime
 import pytz
 
 
-__ZAGREB_LAT = 45.815399
-__ZAGREB_LON = 15.966568
+ZAGREB_LAT = 45.815399
+ZAGREB_LON = 15.966568
 
 
 class OpenWeather:
@@ -14,8 +14,8 @@ class OpenWeather:
 
     def _get_data_from_api(self):
         API_URL = 'http://api.openweathermap.org/data/2.5/onecall?'\
-            f'&lat={__ZAGREB_LAT}'\
-            f'&lon={__ZAGREB_LON}'\
+            f'&lat={ZAGREB_LAT}'\
+            f'&lon={ZAGREB_LON}'\
             '&exclude=current,minutely,daily,alerts&units=metric'\
             f'&appid={self.__apiKey}'
 

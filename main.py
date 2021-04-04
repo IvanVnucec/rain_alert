@@ -5,10 +5,10 @@ from datetime import datetime
 import pytz
 
 
-__DAY_START_HOUR = 6
-__DAY_END_HOUR = 23
-__RAIN_PROB_TRESH = 0.5
-__ZAGREB_TIMEZONE = 'Europe/Zagreb'
+DAY_START_HOUR = 6
+DAY_END_HOUR = 23
+RAIN_PROB_TRESH = 0.5
+ZAGREB_TIMEZONE = 'Europe/Zagreb'
 
 
 def will_rain_today():
@@ -17,14 +17,14 @@ def will_rain_today():
 
     forecastByHour = openWeather.get_forecast_by_hour()
 
-    localTimeNow = datetime.now(pytz.timezone(__ZAGREB_TIMEZONE))
+    localTimeNow = datetime.now(pytz.timezone(ZAGREB_TIMEZONE))
 
     for forecast in forecastByHour:
         forecastTime = forecast['t']
         probability = forecast['p']
         sameDayForecast = localTimeNow.day == forecastTime.day
-        inTimeRange = forecastTime.hour >= __DAY_START_HOUR and forecastTime.hour <= __DAY_END_HOUR
-        highRainProbability = probability >= __RAIN_PROB_TRESH
+        inTimeRange = forecastTime.hour >= DAY_START_HOUR and forecastTime.hour <= DAY_END_HOUR
+        highRainProbability = probability >= RAIN_PROB_TRESH
 
         if sameDayForecast and inTimeRange and highRainProbability:
             rainToday = True

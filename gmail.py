@@ -3,8 +3,8 @@ import ssl
 from email.message import EmailMessage
 
 
-__SSL_PORT = 465
-__SMTP_GMAIL = 'smtp.gmail.com'
+SSL_PORT = 465
+SMTP_GMAIL = 'smtp.gmail.com'
 
 
 class Gmail:
@@ -13,11 +13,11 @@ class Gmail:
         self.sender = sender_email
 
         context = ssl.create_default_context()
-        self.__server = smtplib.SMTP_SSL(
-            __SMTP_GMAIL, __SSL_PORT, context=context)
+        self.__server = smtplib.SMTP_SSL(SMTP_GMAIL, SSL_PORT, context=context)
+
         try:
             self.__server.login(self.sender, password)
-        except smtplib.SMTPAuthenticationError as error:
+        except smtplib.SMTPAuthenticationError:
             exit('ERROR: Wrong username or password.')
         else:
             self.loginSuccessfull = True
@@ -29,7 +29,7 @@ class Gmail:
             msg['Subject'] = subject
             msg.set_content(message)
             msg['To'] = receiver
-            
+
             self.__server.send_message(msg, self.sender, receiver)
 
         else:
