@@ -15,6 +15,8 @@ for receiver in receivers:
     rainToday, rainStart = openWeather.will_rain_today()
 
     if rainToday:
+        # TODO: Construct message so it contains probabilities
+        # by hour
         subject = 'Rain today in Zagreb'
         msg = f'Rain today at {rainStart}.'
 
