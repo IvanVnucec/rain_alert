@@ -26,7 +26,7 @@ class OpenWeather:
 
         return response.json()
 
-    def get_forecast_by_hour(self):
+    def get_forecast(self):
         forecastByHour = []
 
         data = self._get_data_from_api()
