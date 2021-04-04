@@ -1,5 +1,6 @@
 import smtplib
 import ssl
+from email.message import EmailMessage
 
 
 SSL_PORT = 465
@@ -18,5 +19,12 @@ class Gmail:
         except smtplib.SMTPAuthenticationError:
             exit('ERROR: Wrong username or password.')
 
-    def send(self, receiver, message):
+    def send(self, receiver, subject, content):
+        message = EmailMessage()
+
+        message['From'] = self.sender
+        message['To'] = receiver
+        message['Subject'] = subject
+        message.set_content(content)
+
         self.__server.send_message(message, self.sender, receiver)
