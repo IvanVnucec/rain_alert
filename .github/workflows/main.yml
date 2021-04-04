@@ -4,6 +4,9 @@ on:
   schedule:
     # Run every day at 3:00 UTC time (5:00 Zagreb local time)
     - cron:  '0 3 * * *'
+  push:
+  
+  pull_request:
 
   workflow_dispatch:
 
