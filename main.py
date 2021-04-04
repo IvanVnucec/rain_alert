@@ -11,11 +11,9 @@ RAIN_PROB_TRESH = 0.5
 ZAGREB_TIMEZONE = 'Europe/Zagreb'
 
 
-def will_rain_today():
+def will_rain_today(forecastByHour):
     rainToday = False
     rainStartHour = None
-
-    forecastByHour = openWeather.get_forecast_by_hour()
 
     localTimeNow = datetime.now(pytz.timezone(ZAGREB_TIMEZONE))
 
@@ -28,7 +26,7 @@ def will_rain_today():
 
         if sameDayForecast and inTimeRange and highRainProbability:
             rainToday = True
-            rainStartHour = forecastTime.hour
+            rainStartHour = forecastTime
             break
 
     return rainToday, rainStartHour
@@ -42,14 +40,16 @@ if __name__ == "__main__":
 
     receivers = utils.load_emails()
 
+    forecastByHour = openWeather.get_forecast_by_hour()
+
     for receiver in receivers:
-        rainToday, rainStart = will_rain_today()
+        rainToday, rainStart = will_rain_today(forecastByHour)
 
         if rainToday:
             # TODO: Construct message so it contains probabilities
             # by hour
-            subject = 'Rain today in Zagreb'
-            msg = f'Rain today at {rainStart}.'
+            subject = f'Rain in Zagreb from {rainStart.hour}'
+            msg = f''
 
             gmail.send(receiver, subject, msg)
 
