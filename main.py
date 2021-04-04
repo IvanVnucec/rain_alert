@@ -13,7 +13,10 @@ for receiver in receivers:
     rainToday, rainStart = openWeather.will_rain_today()
 
     if rainToday:
-        subject = f'Rain today in Zagreb'
+        subject = 'Rain today in Zagreb'
         msg = f'Rain today at {rainStart}.'
 
         gmail.send(receiver, subject, msg)
+
+    else:
+        print('INFO: No rain today in Zagreb.')
