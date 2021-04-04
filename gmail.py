@@ -3,17 +3,18 @@ import ssl
 from email.message import EmailMessage
 
 
-class Gmail:
-    __SSL_PORT = 465
-    __SMTP_GMAIL = 'smtp.gmail.com'
+__SSL_PORT = 465
+__SMTP_GMAIL = 'smtp.gmail.com'
 
+
+class Gmail:
     def __init__(self, sender_email, password):
         self.loginSuccessfull = False
         self.sender = sender_email
 
         context = ssl.create_default_context()
         self.__server = smtplib.SMTP_SSL(
-            self.__SMTP_GMAIL, self.__SSL_PORT, context=context)
+            __SMTP_GMAIL, __SSL_PORT, context=context)
         try:
             self.__server.login(self.sender, password)
         except smtplib.SMTPAuthenticationError as error:
