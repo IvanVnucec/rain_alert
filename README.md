@@ -1,5 +1,6 @@
 # rain_alert
-Every morning at 5 AM Zagreb local time check if it will be raining on that day, if yes then remind me by sending me an email.
+Every morning at 5 AM local time check if it will be raining that day, if yes 
+then remind me by sending me an email.
 
 ## Get started
 0. Create Gmail account and enable the Less secure app access. 
@@ -11,7 +12,8 @@ openWeatherApiKey: <OpenWeather API key>
 ```
 2. Create `RECEIVERS.txt` and put email subscribers as:
 ```
-example1@gmail.com, "<location name>"
+<email>, "<location name>"
+example1@gmail.com, "Zagreb"
 example2@gmail.com, "Berlin"
 example3@gmail.com, "Milwaukee"
 example4@gmail.com, "Mobile, Alabama"
