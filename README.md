@@ -11,7 +11,6 @@ openWeatherApiKey: <OpenWeather API key>
 ```
 2. Create `RECEIVERS.txt` and put email subscribers as:
 ```
-<email address>
 example@gmail.com
 example2@yahoo.com
 example3@hotmail.com
