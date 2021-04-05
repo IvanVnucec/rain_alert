@@ -45,14 +45,27 @@ class Forecast(OpenWeather):
     def construct_forecast_message(self):
         subject = f'Rain in Zagreb from {self.rainStartHour}h'
 
-        content = ''
+        html = '<html><body>'
+        plain = ''
         for forecast in self.forecastToday:
-            hour = str(forecast['h'])
-            probability = str(round(forecast['p'] * 100))
+            hourStr = str(forecast['h'])
+            probStr = str(round(forecast['p'] * 100))
 
-            content += f'{hour : <2}h {probability : >3}%\n'
+            plain += f'{hourStr : <2}h {probStr : >3}%\n'
 
-        return subject, content
+            alpha = forecast['p'] * 0.6
+            alpha = round(alpha, 2)
+            bColor = f'hsla(240, 100%, 50%, {alpha})'
+
+            if len(hourStr) == 1:
+                hourStr += ' '
+
+            html += f'<span>{hourStr}h </span>'
+            html += f'<span style="color: rgb(0, 0, 0); background-color: {bColor};">{probStr}%</span><br>'
+
+        html += '</body></html>'
+
+        return subject, plain, html
 
     def rain_today(self):
         return self.rainToday

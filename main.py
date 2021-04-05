@@ -11,9 +11,9 @@ if __name__ == "__main__":
     forecast = Forecast(openWeatherApiKey)
 
     if forecast.rain_today():
-        subject, content = forecast.construct_forecast_message()
+        subject, content, contentHtml = forecast.construct_forecast_message()
 
         for receiver in receivers:
-            gmail.send(receiver, subject, content)
+            gmail.send(receiver, subject, content, contentHtml)
     else:
         print('INFO: No rain today in Zagreb.')
