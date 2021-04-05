@@ -1,31 +1,34 @@
-import utils
+from open_weather import OpenWeather
+from utils import get_email_credentials, get_emails_and_locations
 from gmail import Gmail
 from forecast import Forecast
 from location import Location
 
 SEND_EMAIL_HOUR = 5  # AM local time
-CREDENTIALS_FILE_PATH = 'CREDENTIALS.yaml'
-RECEIVERS_FILE_PATH = 'RECEIVERS.txt'
 
 if __name__ == "__main__":
-    sender, password, openWeatherApiKey = utils.get_credentials(
-        CREDENTIALS_FILE_PATH)
-    receivers = utils.get_emails_and_locations(RECEIVERS_FILE_PATH)
+    sender, password = get_email_credentials()
+    receivers = get_emails_and_locations()
+
+    numOfReceivers = len(receivers)
+    print(f'INFO: found {numOfReceivers} receive emails.')
 
     gmail = Gmail(sender, password)
-    forecast = Forecast(openWeatherApiKey)
 
-    for receiver in receivers:
+    for num, receiver in enumerate(receivers, start=1):
+        print(f'INFO: {num}/{numOfReceivers}', end =' ')
         location = Location(receiver['location'])
 
-        # is it time to send an email
         if location.get_local_time().hour == SEND_EMAIL_HOUR:
-            forecastToday = forecast.get_forecast_today(location)
+            forecast = Forecast(location)
 
-            if forecast.rain_today(forecastToday):
-                subject, content, contentHtml = forecast.construct_forecast_message(
-                    forecastToday, location)
-                print('INFO: Sending emails.')
+            if forecast.rain_today():
+                subject, content, contentHtml = forecast.construct_forecast_message()
+                print('Sending email.')
                 gmail.send(receiver['email'], subject, content, contentHtml)
-
+            else:
+                print('No rain today.')
+        else:
+            print("It's not time.")
+    
     print('INFO: Done.')

@@ -7,19 +7,19 @@ DAY_END_HOUR = 23
 RAIN_PROB_TRESHOLD = 0.5
 
 
-class Forecast(OpenWeather):
-    def __init__(self, apiKey):
-        super().__init__(apiKey)
-        self.rainToday = False
-        self.rainStartHour = None
+class Forecast:
+    def __init__(self, location):
+        self.location = location
+        self.forecastToday = self.get_forecast_today()
 
-    def get_forecast_today(self, location):
+    def get_forecast_today(self):
         forecastToday = []
 
-        lat, lon = location.get_latitude_longitude()
+        lat, lon = self.location.get_latitude_longitude()
 
-        forecasts = self.get_forecast(lat, lon)
-        localDate = location.get_local_time().date()
+        ow = OpenWeather()
+        forecasts = ow.get_forecast(lat, lon)
+        localDate = self.location.get_local_time().date()
 
         for forecast in forecasts:
             forecastDate = forecast['t'].date()
@@ -36,25 +36,25 @@ class Forecast(OpenWeather):
 
         return forecastToday
 
-    def get_rain_start_hour(self, forecastToday):
+    def get_rain_start_hour(self):
         hour = None
 
-        for forecast in forecastToday:
+        for forecast in self.forecastToday:
             if forecast['b']:
                 hour = forecast['h']
                 break
 
         return hour
 
-    def construct_forecast_message(self, forecastToday, location):
-        rainStartHour = self.get_rain_start_hour(forecastToday)
-        locationName = location.get_location_name()
+    def construct_forecast_message(self):
+        rainStartHour = self.get_rain_start_hour()
+        locationName = self.location.get_location_name()
 
         subject = f'Rain in {locationName} from {rainStartHour}h'
 
         html = '<html><body>'
         plain = ''
-        for forecast in forecastToday:
+        for forecast in self.forecastToday:
             hourStr = str(forecast['h'])
             probStr = str(round(forecast['p'] * 100))
 
@@ -74,5 +74,5 @@ class Forecast(OpenWeather):
 
         return subject, plain, html
 
-    def rain_today(self, forecastToday):
-        return True in [forecast['b'] for forecast in forecastToday]
+    def rain_today(self):
+        return True in [forecast['b'] for forecast in self.forecastToday]

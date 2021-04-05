@@ -11,9 +11,12 @@ openWeatherApiKey: <OpenWeather API key>
 ```
 2. Create `RECEIVERS.txt` and put email subscribers as:
 ```
-example@gmail.com
-example2@yahoo.com
-example3@hotmail.com
+example1@gmail.com, "<location name>"
+example2@gmail.com, "Berlin"
+example3@gmail.com, "Milwaukee"
+example4@gmail.com, "Mobile, Alabama"
+example5@gmail.com, "Nashville, Tennessee"
+example6@gmail.com, "Nashville, Indiana"
 ```
 3. Activate virtualenv.
 4. Install dependencies from `requirements.txt`.

@@ -14,6 +14,9 @@ class Location:
         geolocator = geocoders.Nominatim(user_agent=GEOLOC_APP_NAME)
         self.point = geolocator.geocode(self.name)
 
+        if self.point == None:
+            exit(f'ERROR: Can not find place by name.')
+
         # get timezone
         tf = TimezoneFinder()
         self.timezone = tf.timezone_at(

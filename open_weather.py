@@ -1,12 +1,13 @@
 import requests
-import json
 from datetime import datetime
-import pytz
+from utils import get_openWeather_api_key
 
 
 class OpenWeather:
-    def __init__(self, apiKey) -> None:
-        self.__apiKey = apiKey
+    __API_KEY = get_openWeather_api_key()
+
+    def __init__(self):
+        pass
 
     def _get_data_from_api(self, latitude, longitude):
 
@@ -14,7 +15,7 @@ class OpenWeather:
             f'&lat={latitude}'\
             f'&lon={longitude}'\
             '&exclude=current,minutely,daily,alerts&units=metric'\
-            f'&appid={self.__apiKey}'
+            f'&appid={self.__API_KEY}'
 
         try:
             response = requests.get(API_URL)
