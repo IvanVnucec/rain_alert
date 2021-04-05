@@ -28,7 +28,7 @@ class Gmail:
         message['Subject'] = subject
 
         message.attach(MIMEText(content, "plain"))
-        
+
         if contentHtml:
             message.attach(MIMEText(contentHtml, "html"))
 
