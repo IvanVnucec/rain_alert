@@ -5,7 +5,6 @@ from open_weather import OpenWeather
 DAY_START_HOUR = 6
 DAY_END_HOUR = 23
 RAIN_PROB_TRESHOLD = 0.5
-ZAGREB_TIMEZONE = 'Europe/Zagreb'
 
 
 class Forecast(OpenWeather):
@@ -13,13 +12,14 @@ class Forecast(OpenWeather):
         super().__init__(apiKey)
         self.rainToday = False
         self.rainStartHour = None
-        self.forecastToday = self.get_forecast_today()
 
-    def get_forecast_today(self):
+    def get_forecast_today(self, location):
         forecastToday = []
 
-        forecasts = self.get_forecast()
-        localDate = datetime.now(pytz.timezone(ZAGREB_TIMEZONE)).date()
+        lat, lon = location.get_latitude_longitude()
+
+        forecasts = self.get_forecast(lat, lon)
+        localDate = location.get_local_time().date()
 
         for forecast in forecasts:
             forecastDate = forecast['t'].date()
@@ -34,20 +34,27 @@ class Forecast(OpenWeather):
                 forecastToday.append(
                     {'b': highRainProbability, 'p': probability, 'h': forecastHour})
 
-                if highRainProbability:
-                    self.rainToday = True
-                    # set rain start hour
-                    if self.rainStartHour == None:
-                        self.rainStartHour = forecastHour
-
         return forecastToday
 
-    def construct_forecast_message(self):
-        subject = f'Rain in Zagreb from {self.rainStartHour}h'
+    def get_rain_start_hour(self, forecastToday):
+        hour = None
+
+        for forecast in forecastToday:
+            if forecast['b']:
+                hour = forecast['h']
+                break
+
+        return hour
+
+    def construct_forecast_message(self, forecastToday, location):
+        rainStartHour = self.get_rain_start_hour(forecastToday)
+        locationName = location.get_location_name()
+
+        subject = f'Rain in {locationName} from {rainStartHour}h'
 
         html = '<html><body>'
         plain = ''
-        for forecast in self.forecastToday:
+        for forecast in forecastToday:
             hourStr = str(forecast['h'])
             probStr = str(round(forecast['p'] * 100))
 
@@ -67,5 +74,5 @@ class Forecast(OpenWeather):
 
         return subject, plain, html
 
-    def rain_today(self):
-        return self.rainToday
+    def rain_today(self, forecastToday):
+        return True in [forecast['b'] for forecast in forecastToday]

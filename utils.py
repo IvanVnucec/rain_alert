@@ -1,7 +1,5 @@
 import yaml
 
-CREDENTIALS_FILE_PATH = 'CREDENTIALS.yaml'
-RECEIVERS_FILE_PATH = 'RECEIVERS.txt'
 
 def get_credentials(filePath):
     try:
@@ -27,7 +25,15 @@ def get_emails_and_locations(filePath):
         exit('ERROR: email list file not found.')
 
     if receivers:
-        return receivers
+        emails_and_locations = []
+
+        for receiver in receivers:
+            email_and_location = {}
+            email_and_location['email'] = receiver.split(',')[0].strip()
+            email_and_location['location'] = receiver.split(',')[1].strip()
+            emails_and_locations.append(email_and_location)
+
+        return emails_and_locations
 
     else:
         exit('ERROR: no emails list found.')

@@ -4,18 +4,15 @@ from datetime import datetime
 import pytz
 
 
-ZAGREB_LAT = 45.815399
-ZAGREB_LON = 15.966568
-
-
 class OpenWeather:
     def __init__(self, apiKey) -> None:
         self.__apiKey = apiKey
 
-    def _get_data_from_api(self):
+    def _get_data_from_api(self, latitude, longitude):
+
         API_URL = 'http://api.openweathermap.org/data/2.5/onecall?'\
-            f'&lat={ZAGREB_LAT}'\
-            f'&lon={ZAGREB_LON}'\
+            f'&lat={latitude}'\
+            f'&lon={longitude}'\
             '&exclude=current,minutely,daily,alerts&units=metric'\
             f'&appid={self.__apiKey}'
 
@@ -26,10 +23,10 @@ class OpenWeather:
 
         return response.json()
 
-    def get_forecast(self):
+    def get_forecast(self, latitude, longitude):
         forecastByHour = []
 
-        data = self._get_data_from_api()
+        data = self._get_data_from_api(latitude, longitude)
 
         timezoneOffset = data['timezone_offset']
         byHours = data['hourly']
