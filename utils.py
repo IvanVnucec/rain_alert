@@ -3,10 +3,9 @@ import yaml
 CREDENTIALS_FILE_PATH = 'CREDENTIALS.yaml'
 RECEIVERS_FILE_PATH = 'RECEIVERS.txt'
 
-
-def load_credentials():
+def get_credentials(filePath):
     try:
-        with open(CREDENTIALS_FILE_PATH, 'r') as file:
+        with open(filePath, 'r') as file:
             credentials = yaml.load(file, Loader=yaml.FullLoader)
 
     except FileNotFoundError:
@@ -19,10 +18,10 @@ def load_credentials():
     return sender, password, openWeatherApiKey
 
 
-def load_emails():
+def get_emails_and_locations(filePath):
     try:
-        with open(RECEIVERS_FILE_PATH, 'r') as email_list:
-            receivers = email_list.read().splitlines()
+        with open(filePath, 'r') as file:
+            receivers = file.read().splitlines()
 
     except FileNotFoundError:
         exit('ERROR: email list file not found.')

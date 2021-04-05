@@ -2,10 +2,12 @@ import utils
 from gmail import Gmail
 from forecast import Forecast
 
+CREDENTIALS_FILE_PATH = 'CREDENTIALS.yaml'
+RECEIVERS_FILE_PATH = 'RECEIVERS.txt'
 
 if __name__ == "__main__":
-    sender, password, openWeatherApiKey = utils.load_credentials()
-    receivers = utils.load_emails()
+    sender, password, openWeatherApiKey = utils.get_credentials(CREDENTIALS_FILE_PATH)
+    receivers = utils.get_emails_and_locations(RECEIVERS_FILE_PATH)
 
     gmail = Gmail(sender, password)
     forecast = Forecast(openWeatherApiKey)
