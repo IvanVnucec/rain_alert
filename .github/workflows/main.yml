@@ -2,8 +2,8 @@ name: Run application
 
 on:
   schedule:
-    # Run every day at 3:45 UTC time (5:45 Zagreb local time)
-    - cron:  '45 3 * * *'
+    # Run at every 20th minute from 0 through 59.
+    - cron:  '0/20 * * * *'
   push:
   
   pull_request:
