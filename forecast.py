@@ -1,5 +1,3 @@
-from datetime import datetime
-import pytz
 from open_weather import OpenWeather
 
 DAY_START_HOUR = 6

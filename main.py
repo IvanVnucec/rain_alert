@@ -1,4 +1,3 @@
-from open_weather import OpenWeather
 from utils import get_email_credentials, get_emails_and_locations
 from gmail import Gmail
 from forecast import Forecast
