@@ -1,6 +1,28 @@
 # rain_alert
 Every morning at 5 AM local time check if it will be raining that day, if yes 
-then remind me by sending me an email.
+send an email with forecast message like this:
+```
+Subject: Rain in Zagreb from 21h
+Message:
+6 h 0%
+7 h 0%
+8 h 0%
+9 h 0%
+10h 0%
+11h 0%
+12h 0%
+13h 0%
+14h 1%
+15h 4%
+16h 4%
+17h 12%
+18h 12%
+19h 21%
+20h 39%
+21h 97%
+22h 100%
+23h 100%
+```
 
 ## Get started
 0. Create Gmail account and enable the Less secure app access. 
