@@ -2,10 +2,10 @@ name: Run application
 
 on:
   schedule:
-    # Run at every 30th minute from 37 through 59.
-    - cron:  '37/30 * * * *'
+    # Run at every 30th minute from 15 through 59.
+    - cron:  '15/30 * * * *'
   push:
-  
+
   pull_request:
 
   workflow_dispatch:
