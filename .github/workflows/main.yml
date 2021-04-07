@@ -2,8 +2,8 @@ name: Run application
 
 on:
   schedule:
-    # Run at every 30th minute from 15 through 59.
-    - cron:  '15/30 * * * *'
+    # Run at every 15th minute
+    - cron:  '15 * * * *'
   push:
 
   pull_request:
