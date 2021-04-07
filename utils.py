@@ -29,25 +29,29 @@ def get_openWeather_api_key():
     return credentials['openWeatherApiKey']
 
 
-def get_emails_and_locations():
+def get_receivers():
     try:
         with open(RECEIVERS_FILE_PATH, 'r') as file:
-            receivers = file.read().splitlines()
+            lines = file.read().splitlines()
 
     except FileNotFoundError:
         exit('ERROR: email list file not found.')
 
-    if receivers:
-        emails_and_locations = []
+    if lines:
+        locations = {}
 
-        for receiver in receivers:
-            email_and_location = {}
-            string = receiver.partition(',')
-            email_and_location['email'] = string[0].strip()
-            email_and_location['location'] = string[2].replace('"', '').strip()
-            emails_and_locations.append(email_and_location)
+        for line in lines:
+            line = line.partition(',')
+            receiver = line[0].strip()
+            location = line[2].replace('"', '').strip()
 
-        return emails_and_locations
+            if not location in locations:
+                # create key, create empty list, append to list email
+                locations[location] = []
+
+            locations[location].append(receiver)
+
+        return locations
 
     else:
         exit('ERROR: no emails list found.')

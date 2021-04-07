@@ -70,7 +70,7 @@ class Forecast:
 
         html += '</body></html>'
 
-        return subject, plain, html
+        return (subject, plain, html)
 
     def rain_today(self):
         return True in [forecast['b'] for forecast in self.forecastToday]
