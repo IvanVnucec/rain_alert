@@ -1,4 +1,7 @@
 # rain_alert
+You will not forget your umbrella anymore.
+
+## About
 Every morning at 5 AM local time check if it will be raining that day, if yes 
 send an email with forecast message like this:
 ```
