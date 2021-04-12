@@ -50,25 +50,66 @@ class Forecast:
 
         subject = f'Rain in {locationName} from {rainStartHour}h'
 
-        html = '<html><body>'
+        # construct plain message
         plain = ''
         for forecast in self.forecastToday:
             hourStr = str(forecast['h'])
             probStr = str(round(forecast['p'] * 100))
-
             plain += f'{hourStr : <2}h {probStr : >3}%\n'
 
-            alpha = forecast['p'] * 0.6
-            alpha = round(alpha, 2)
+        html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <style type="text/css">
+        table {
+            font-family: arial, sans-serif; 
+            border-collapse: collapse; 
+            width: 40%;
+        }
+
+        table td, th {
+            border: 1px solid #afafaf; 
+            text-align: center; padding: 8px;
+        }
+        """
+
+        # set cell colors based on precipitation probability
+        for id, forecast in enumerate(self.forecastToday):
+            alpha = round(forecast['p'] * 0.6, 2)
             bColor = f'hsla(240, 100%, 50%, {alpha})'
+            html += f'table td#CELL{id} {{background-color:' + \
+                bColor + '; color:black;}'
 
-            if len(hourStr) == 1:
-                hourStr += ' '
+        html += """
+        </style>
+        </head>
+        <body>
+        """
 
-            html += f'<span>{hourStr}h </span>'
-            html += f'<span style="color: rgb(0, 0, 0); background-color: {bColor};">{probStr}%</span><br>'
+        html += f"""
+        <h2>{locationName} forecast</h2>
+        <table>
+        <tr>
+            <th>Hour [h]</th>
+            <th>Probability [%]</th>
+        </tr>"""
 
-        html += '</body></html>'
+        # populate cells
+        for id, forecast in enumerate(self.forecastToday):
+            hourStr = str(forecast['h'])
+            probStr = str(round(forecast['p'] * 100))
+            html += f"""
+                <tr>
+                    <td>{hourStr}</td>
+                    <td id="CELL{id}">{probStr}</td>
+                </tr>
+            """
+
+        html += """
+        </table>
+        </body>
+        </html>"""
 
         return (subject, plain, html)
 
