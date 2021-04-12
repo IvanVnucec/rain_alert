@@ -44,19 +44,16 @@ class Forecast:
 
         return hour
 
-    def construct_forecast_message(self):
-        rainStartHour = self.get_rain_start_hour()
-        locationName = self.location.get_location_name()
-
-        subject = f'Rain in {locationName} from {rainStartHour}h'
-
-        # construct plain message
-        plain = ''
+    def __construct_plain_message(self, locationName):
+        plain = f'{locationName} forecast\n\n'
         for forecast in self.forecastToday:
             hourStr = str(forecast['h'])
             probStr = str(round(forecast['p'] * 100))
             plain += f'{hourStr : <2}h {probStr : >3}%\n'
 
+        return plain
+
+    def __construct_html_message(self, locationName):
         html = """
         <!DOCTYPE html>
         <html>
@@ -110,6 +107,17 @@ class Forecast:
         </table>
         </body>
         </html>"""
+
+        return html
+
+    def construct_forecast_message(self):
+        rainStartHour = self.get_rain_start_hour()
+        locationName = self.location.get_location_name()
+
+        subject = f'Rain in {locationName} from {rainStartHour}h'
+
+        plain = self.__construct_plain_message(locationName)
+        html = self.__construct_html_message(locationName)
 
         return (subject, plain, html)
 
