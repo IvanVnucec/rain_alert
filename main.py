@@ -6,14 +6,12 @@ from location import Location
 SEND_EMAIL_HOUR = 5  # AM local time
 
 
-def send_forecast_message(receiver, message):
-    subject = message[0]
-    contentPlain = message[1]
-    contentHtml = message[2]
-    gmail.send(receiver, subject, contentPlain, contentHtml)
+def send_forecast_message(gmail, receiver, message):
+    subject, msgPlain, msgHtml = message
+    gmail.send(receiver, subject, msgPlain, msgHtml)
 
 
-if __name__ == "__main__":
+def main():
     sender, password = get_email_credentials()
     receivers = get_receivers()
 
@@ -24,11 +22,15 @@ if __name__ == "__main__":
 
         if location.get_local_time().hour == SEND_EMAIL_HOUR:
             forecast = Forecast(location)
-            
+
             if forecast.rain_today():
-                message = forecast.construct_forecast_message()
-                
+                message = forecast.get_forecast_message()
+
                 for email in emails:
-                    send_forecast_message(email, message)
+                    send_forecast_message(gmail, email, message)
 
     print('INFO: Done.')
+
+
+if __name__ == "__main__":
+    main()

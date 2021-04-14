@@ -54,63 +54,64 @@ class Forecast:
         return plain
 
     def __construct_html_message(self, locationName):
-        html = """
-        <!DOCTYPE html>
-        <html>
-        <head>
+        html = """<!DOCTYPE html>
+<html>
+    <head>
         <style type="text/css">
-        table {
-            font-family: arial, sans-serif; 
-            border-collapse: collapse; 
-            width: 40%;
-        }
-
-        table td, th {
-            border: 1px solid #afafaf; 
-            text-align: center; padding: 8px;
-        }
-        """
+            table {
+                font-family: arial, sans-serif; 
+                border-collapse: collapse; 
+                width: 40%;
+            }
+            table td, 
+            th {
+                border: 1px solid #afafaf; 
+                text-align: center; 
+                padding: 8px;
+            }
+    """
 
         # set cell colors based on precipitation probability
         for id, forecast in enumerate(self.forecastToday):
             alpha = round(forecast['p'] * 0.6, 2)
             bColor = f'hsla(240, 100%, 50%, {alpha})'
-            html += f'table td#CELL{id} {{background-color:' + \
-                bColor + '; color:black;}'
 
-        html += """
-        </style>
-        </head>
-        <body>
-        """
+            html += f"""
+            table td#CELL{id} {{
+                background-color: {bColor};
+                color: black;
+            }}"""
 
         html += f"""
+        </style>
+    </head>
+    <body>
         <h2>{locationName} forecast</h2>
         <table>
-        <tr>
-            <th>Hour [h]</th>
-            <th>Probability [%]</th>
-        </tr>"""
+            <tr>
+                <th>Hour [h]</th>
+                <th>Probability [%]</th>
+            </tr>"""
 
         # populate cells
         for id, forecast in enumerate(self.forecastToday):
             hourStr = str(forecast['h'])
             probStr = str(round(forecast['p'] * 100))
             html += f"""
-                <tr>
-                    <td>{hourStr}</td>
-                    <td id="CELL{id}">{probStr}</td>
-                </tr>
-            """
+            <tr>
+                <td>{hourStr}</td>
+                <td id="CELL{id}">{probStr}</td>
+            </tr>
+        """
 
-        html += """
-        </table>
-        </body>
-        </html>"""
+        html += """</table>
+    </body>
+</html>
+"""
 
         return html
 
-    def construct_forecast_message(self):
+    def get_forecast_message(self):
         rainStartHour = self.get_rain_start_hour()
         locationName = self.location.get_location_name()
 
