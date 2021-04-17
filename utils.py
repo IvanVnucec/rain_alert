@@ -41,12 +41,11 @@ def get_receivers():
         locations = {}
 
         for line in lines:
-            line = line.partition(',')
-            receiver = line[0].strip()
-            location = line[2].replace('"', '').strip()
+            receiver, _, location = line.partition(',')
+            receiver = receiver.strip()
+            location = location.strip()
 
             if not location in locations:
-                # create key, create empty list, append to list email
                 locations[location] = []
 
             locations[location].append(receiver)
