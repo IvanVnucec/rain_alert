@@ -52,4 +52,4 @@ example6@gmail.com, Nashville Indiana
 hour in CI workflow (see my [GitHub Actions setup](https://github.com/IvanVnucec/rain_alert/blob/master/.github/workflows/main.yml)).
 
 ## License
-[WTFPL – Do What the Fuck You Want to Public License](LICENSE.md)
+[MIT](LICENSE.md)
