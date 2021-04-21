@@ -41,9 +41,9 @@ openWeatherApiKey: <OpenWeather API key>
 example1@gmail.com, Zagreb
 example2@gmail.com, Berlin
 example3@gmail.com, Milwaukee
-example4@gmail.com, Mobile, Alabama
-example5@gmail.com, Nashville, Tennessee
-example6@gmail.com, Nashville, Indiana
+example4@gmail.com, Mobile Alabama
+example5@gmail.com, Nashville Tennessee
+example6@gmail.com, Nashville Indiana
 ```
 3. Activate virtualenv.
 4. Install dependencies from `requirements.txt`.
