@@ -41,14 +41,15 @@ openWeatherApiKey: <OpenWeather API key>
 example1@gmail.com, Zagreb
 example2@gmail.com, Berlin
 example3@gmail.com, Milwaukee
-example4@gmail.com, Mobile, Alabama
-example5@gmail.com, Nashville, Tennessee
-example6@gmail.com, Nashville, Indiana
+example4@gmail.com, Mobile Alabama
+example5@gmail.com, Nashville Tennessee
+example6@gmail.com, Nashville Indiana
 ```
 3. Activate virtualenv.
 4. Install dependencies from `requirements.txt`.
 5. Run app as `python3 main.py'.
-6. You can schedule the script to run for every hour in CI workflow (see my [GitHub Actions setup](https://github.com/IvanVnucec/rain_alert/actions)).
+6. You can schedule the script to run for every 
+hour in CI workflow (see my [GitHub Actions setup](https://github.com/IvanVnucec/rain_alert/blob/master/.github/workflows/main.yml)).
 
 ## License
-[WTFPL – Do What the Fuck You Want to Public License](LICENSE.md)
+[MIT](LICENSE.md)
