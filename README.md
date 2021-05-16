@@ -30,13 +30,13 @@ Message:
 ## Get started
 0. Create Gmail account and enable the Less secure app access. 
 Create Open Weather API Key.
-1. Create `CREDENTIALS.yaml` and put credentials:
+1. Create `CREDENTIALS.yaml` file and put credentials:
 ```
 senderEmail: <sender Gmail email>
 senderPassword: <Gmail email password>
 openWeatherApiKey: <OpenWeather API key>
 ```
-2. Create `RECEIVERS.txt` and put email subscribers as:
+2. Create `RECEIVERS.txt` file and put email subscribers as:
 ```
 <email>, <location name>
 example1@gmail.com, Zagreb
