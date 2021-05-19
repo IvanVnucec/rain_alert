@@ -49,8 +49,8 @@ example6@gmail.com, Nashville Indiana
 3. Activate virtualenv.
 4. Install pip dependencies from `requirements.txt` file.
 5. Run app as `python3 main.py`.
-6. You can schedule the script to run for every 
-hour in CI workflow (see my [GitHub Actions setup](https://github.com/IvanVnucec/rain_alert/blob/master/.github/workflows/main.yml)).
+6. You can schedule the script to run once every 
+hour like we did in CI workflow (see my [GitHub Actions setup](https://github.com/IvanVnucec/rain_alert/blob/master/.github/workflows/main.yml)).
 
 ## License
 [MIT](LICENSE.md)
