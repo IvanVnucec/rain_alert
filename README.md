@@ -29,7 +29,7 @@ Message:
 
 ## Get started
 0. Create Gmail account and enable the Less secure app access. 
-Create Open Weather API Key.
+Create OpenWeather API Key.
 1. Create `CREDENTIALS.yaml` file and put credentials:
 ```
 senderEmail: <sender Gmail email>
