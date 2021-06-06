@@ -7,6 +7,7 @@ would run it afterwards at 6AM, 7AM etc...
 """
 
 from datetime import datetime
+import pytz
 
 EXEC_TIMETABLE_FILENAME = 'EXEC_TIMETABLE.txt'
 DEFAULT_LOCAL_TIME = 5  # AM
@@ -19,8 +20,11 @@ class ExecTracker:
     def _timetable_file_open(self, mode='r'):
         try:
             file = open(self.exec_timetable_filepath, mode)
-        except Exception as e:
-            exit(e)
+        except:
+            # create file if it doesn't exist
+            file = open(self.exec_timetable_filepath, 'w')
+            file.close()
+            return self._timetable_file_open(mode)
         else:
             return file
 
@@ -66,7 +70,14 @@ class ExecTracker:
         # close file
         pass
 
-    def script_was_executed_today(self, timezone, from_local_time=DEFAULT_LOCAL_TIME):
+    def script_executed_today(self, email_send_hour, local_time):
+        exec_times = self.load_execution_times()
         # convert local time to UTC
+        local_time_utc = local_time.astimezone(pytz.utc)
         # go through every UTC time and return if the script did run that day
-        pass
+        for exec_time in exec_times:
+            if exec_time.date() == local_time_utc.date():
+                if local_time.hour >= email_send_hour:
+                    return True
+
+        return False
