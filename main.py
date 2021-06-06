@@ -23,9 +23,13 @@ def main():
     for locationName, emails in receivers.items():
         location = Location(locationName)
 
-        # if script was already run that day
+        # get local time
         local_time = location.get_local_time()
-        if not tracker.script_executed_today(SEND_EMAIL_HOUR, local_time):
+
+        time_to_run = local_time.hour >= SEND_EMAIL_HOUR
+        already_executed = tracker.script_executed_today(local_time)
+
+        if time_to_run and not already_executed:
             forecast = Forecast(location)
 
             if forecast.rain_today():

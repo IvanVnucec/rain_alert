@@ -70,14 +70,13 @@ class ExecTracker:
         # close file
         pass
 
-    def script_executed_today(self, email_send_hour, local_time):
+    def script_executed_today(self, local_time):
         exec_times = self.load_execution_times()
         # convert local time to UTC
         local_time_utc = local_time.astimezone(pytz.utc)
         # go through every UTC time and return if the script did run that day
         for exec_time in exec_times:
             if exec_time.date() == local_time_utc.date():
-                if local_time.hour >= email_send_hour:
-                    return True
+                return True
 
         return False
