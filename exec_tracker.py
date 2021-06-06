@@ -15,7 +15,6 @@ DEFAULT_LOCAL_TIME = 5  # AM
 class ExecTracker:
     def __init__(self) -> None:
         self.exec_timetable_filepath = EXEC_TIMETABLE_FILENAME
-        
 
     def _timetable_file_open(self, mode='r'):
         try:
@@ -28,6 +27,23 @@ class ExecTracker:
     def _timetable_file_close(self, file):
         file.close()
 
+    def _get_exec_times(self):
+        file = self._timetable_file_open()
+        lines = file.readlines()
+
+        execution_times = []
+        for line in lines:
+            # remove newline character
+            line = line.replace('\n', '')
+            # append to list of exec times
+            execution_times.append(datetime.strptime(
+                line, '%Y-%m-%d %H:%M:%S.%f'))
+
+        self._timetable_file_close(file)
+
+        # return the list
+        return execution_times
+
     def store_execution_time(self):
         # open timetable file for appending
         file = self._timetable_file_open('a')
@@ -38,14 +54,7 @@ class ExecTracker:
         self._timetable_file_close(file)
 
     def load_execution_times(self):
-        self._timetable_file_open()
-            self.execution_times = []
-            for line in lines:
-                # append to list of exec times
-                self.execution_times.append(datetime.strftime(line))
-
-        # return the list
-        return self.execution_times
+        return self._get_exec_times()
 
     def clean_exec_times(self):
         # open timetable file for both reading and writing
