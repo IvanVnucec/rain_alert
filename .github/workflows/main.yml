@@ -4,9 +4,6 @@ on:
   schedule:
     # Run at every 15th minute
     - cron:  '15 * * * *'
-  push:
-
-  pull_request:
 
   workflow_dispatch:
 
