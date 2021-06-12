@@ -6,7 +6,6 @@ from location import Location
 from exec_tracker import ExecTracker
 
 SEND_EMAIL_HOUR = 5  # AM local time
-TIMETABLE_PATH = 'EXEC_TIMETABLE.json'
 
 
 def send_forecast_message(gmail, receiver, message):
@@ -22,8 +21,7 @@ def main():
 
     gmail = Gmail(sender, password)
 
-    timetable = track.timetable_open(TIMETABLE_PATH)
-    exec_times = track.load_exec_times(timetable)
+    exec_times = track.get_exec_times()
 
     for locationName, emails in receivers.items():
         location = Location(locationName)
@@ -42,8 +40,7 @@ def main():
                 for email in emails:
                     send_forecast_message(gmail, email, message)
 
-    track.timetable_store(timetable, exec_times)
-    track.timetable_close(timetable)
+    track.timetable_store(exec_times)
     print('INFO: Done.')
 
 

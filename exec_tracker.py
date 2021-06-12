@@ -10,29 +10,25 @@ from datetime import datetime
 import json
 
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
-DEFAULT_LOCAL_TIME = 5  # AM
-
+TIMETABLE_PATH = 'EXEC_TIMETABLE.json'
 
 class ExecTracker:
-    def __init__(self) -> None:
-        pass
-
-    def timetable_open(self, path):
+    def __init__(self):
         try:
-            timetable = open(path, 'r+')
+            self.timetable = open(TIMETABLE_PATH, 'r+')
         except FileNotFoundError:
-            timetable = open(path, 'w')
-            timetable.write("{}")
-            timetable.close()
-            return self.timetable_open(path)
-        else:
-            return timetable
+            self.timetable = open(TIMETABLE_PATH, 'w')
+            self.timetable.write('{}')
+            self.timetable.close()
+            self.timetable = open(TIMETABLE_PATH, 'r+')
+        finally:
+            self.exec_times = json.load(self.timetable)
 
-    def timetable_close(self, timetable):
-        timetable.close()
+    def __del__(self):
+        self.timetable.close()
 
-    def load_exec_times(self, timetable):
-        return json.load(timetable)
+    def get_exec_times(self):
+        return self.exec_times
 
     def script_executed_today(self, exec_times, location):
         if location.name in exec_times:
@@ -52,6 +48,6 @@ class ExecTracker:
         else:
             exec_times[location_name] = [local_time_utc_str]
 
-    def timetable_store(self, timetable, exec_times):
-        timetable.seek(0)
-        json.dump(exec_times, timetable, indent=4)
+    def timetable_store(self, exec_times):
+        self.timetable.seek(0)
+        json.dump(exec_times, self.timetable, indent=4)
