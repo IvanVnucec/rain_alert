@@ -21,16 +21,14 @@ def main():
 
     gmail = Gmail(sender, password)
 
-    exec_times = track.get_exec_times()
-
     for locationName, emails in receivers.items():
         location = Location(locationName)
 
-        executed_today = track.script_executed_today(exec_times, location)
+        executed_today = track.script_executed_today(location)
         time_to_send_email = location.get_local_time().hour >= SEND_EMAIL_HOUR
 
         if not executed_today and time_to_send_email:
-            track.append_exec_time(exec_times, location)
+            track.mark_exec_time(location)
 
             forecast = Forecast(location)
 
@@ -40,7 +38,6 @@ def main():
                 for email in emails:
                     send_forecast_message(gmail, email, message)
 
-    track.timetable_store(exec_times)
     print('INFO: Done.')
 
 
