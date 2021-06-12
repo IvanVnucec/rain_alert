@@ -36,4 +36,4 @@ jobs:
       - name: Run main application
         run: |
           python3 main.py
-          cat EXEC_TIMETABLE.json
+          cat exec_timetable/EXEC_TIMETABLE.json
