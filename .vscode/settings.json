@@ -3,5 +3,5 @@
     "python.formatting.autopep8Args": ["--max-line-length", "80"],
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.linting.lintOnSave": true
+    "python.linting.lintOnSave": true,
 }

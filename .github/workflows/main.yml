@@ -18,8 +18,8 @@ jobs:
         id: exec_times
         uses: actions/cache@v2
         with:
-          path: ./.
-          key: ${{ runner.os }}-${{ hashFiles('EXEC_TIMETABLE.json') }}
+          path: exec_timetable
+          key: ${{ runner.os }}-${{ hashFiles('exec_timetable/EXEC_TIMETABLE.json') }}
 
       - name: Create Credentials and Receivers files
         env: 
