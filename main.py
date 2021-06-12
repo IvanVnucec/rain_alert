@@ -1,7 +1,9 @@
+from geopy.format import HTML_DOUBLE_PRIME
 from utils import get_email_credentials, get_receivers
 from gmail import Gmail
 from forecast import Forecast
 from location import Location
+from exec_tracker import ExecTracker
 
 SEND_EMAIL_HOUR = 5  # AM local time
 
@@ -12,6 +14,8 @@ def send_forecast_message(gmail, receiver, message):
 
 
 def main():
+    track = ExecTracker()
+
     sender, password = get_email_credentials()
     receivers = get_receivers()
 
@@ -20,7 +24,12 @@ def main():
     for locationName, emails in receivers.items():
         location = Location(locationName)
 
-        if location.get_local_time().hour == SEND_EMAIL_HOUR:
+        executed_today = track.script_executed_today(location)
+        time_to_send_email = location.get_local_time().hour >= SEND_EMAIL_HOUR
+
+        if not executed_today and time_to_send_email:
+            track.mark_exec_time(location)
+
             forecast = Forecast(location)
 
             if forecast.rain_today():

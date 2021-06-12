@@ -4,9 +4,6 @@ on:
   schedule:
     # Run at every 15th minute
     - cron:  '15 * * * *'
-  push:
-
-  pull_request:
 
   workflow_dispatch:
 
@@ -16,6 +13,13 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+
+      - name: Cache EXEC_TIMETABLE.json file
+        id: exec_times
+        uses: actions/cache@v2
+        with:
+          path: ./.
+          key: ${{ runner.os }}-${{ hashFiles('EXEC_TIMETABLE.json') }}
 
       - name: Create Credentials and Receivers files
         env: 
@@ -28,5 +32,8 @@ jobs:
       - name: Install requirements
         run: python3 -m pip install -r requirements.txt 
       
+      # delete cat line below, we are using it for debugging purposes
       - name: Run main application
-        run: python3 main.py
+        run: |
+          python3 main.py
+          cat EXEC_TIMETABLE.json

@@ -29,5 +29,9 @@ class Location:
         tz = pytz.timezone(self.timezone)
         return datetime.now(tz)
 
+    def get_local_time_utc(self):
+        local_time = self.get_local_time()
+        return local_time.astimezone(pytz.utc)
+
     def get_latitude_longitude(self):
         return self.point.latitude, self.point.longitude
