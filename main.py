@@ -1,4 +1,3 @@
-from geopy.format import HTML_DOUBLE_PRIME
 from utils import get_email_credentials, get_receivers
 from gmail import Gmail
 from forecast import Forecast
