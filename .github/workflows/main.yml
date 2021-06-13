@@ -35,5 +35,6 @@ jobs:
       # delete cat line below, we are using it for debugging purposes
       - name: Run main application
         run: |
+          cat exec_timetable/EXEC_TIMETABLE.json
           python3 main.py
           cat exec_timetable/EXEC_TIMETABLE.json
