@@ -28,9 +28,11 @@ jobs:
         run: python3 -m pip install -r requirements.txt 
 
       - name: Download execution timetable
-        uses: actions/download-artifact@v2
+        uses: dawidd6/action-download-artifact@v2
         with:
+          workflow: main.yml
           name: exec_timetable
+          path: ./.
       
       # delete cat line below, we are using it for debugging purposes
       - name: Run main application
