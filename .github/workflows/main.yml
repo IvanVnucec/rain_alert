@@ -19,7 +19,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: exec_timetable
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./exec_timetable/EXEC_TIMETABLE.json') }}
+          key: ${{ runner.os }}-build-${{ hashFiles('./exec_timetable/EXEC_TIMETABLE.json') }}
 
       - name: Create Credentials and Receivers files
         env: 
