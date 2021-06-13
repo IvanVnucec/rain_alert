@@ -10,7 +10,9 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
-    
+    # if there is no artifact to download
+    continue-on-error: true
+
     steps:
       - uses: actions/checkout@v2
 
