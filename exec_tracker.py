@@ -11,7 +11,7 @@ import json
 from os import path
 
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
-TIMETABLE_PATH = path.join('exec_timetable', 'EXEC_TIMETABLE.json')
+TIMETABLE_PATH = 'exec_timetable.json'
 
 
 class ExecTracker:
