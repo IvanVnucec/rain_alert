@@ -24,6 +24,11 @@ jobs:
 
       - name: Install requirements
         run: python3 -m pip install -r requirements.txt 
+
+      - name: Download execution timetable
+        uses: actions/download-artifact@v2
+        with:
+          name: exec_timetable
       
       # delete cat line below, we are using it for debugging purposes
       - name: Run main application
