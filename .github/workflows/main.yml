@@ -34,11 +34,14 @@ jobs:
       
       # delete cat line below, we are using it for debugging purposes
       - name: Run main application
+        # if Download exec timetable step failed still run the script
+        if: always()
         run: |
           python3 main.py
           cat exec_timetable.json
 
       - name: Upload execution timetable
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: exec_timetable
