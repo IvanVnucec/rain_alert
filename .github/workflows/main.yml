@@ -14,13 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache EXEC_TIMETABLE.json file
-        id: exec_times
-        uses: actions/cache@v2
-        with:
-          path: exec_timetable
-          key: ${{ runner.os }}-build-${{ hashFiles('./exec_timetable/EXEC_TIMETABLE.json') }}
-
       - name: Create Credentials and Receivers files
         env: 
           CREDENTIALS: ${{ secrets.CREDENTIALS }}
@@ -35,6 +28,11 @@ jobs:
       # delete cat line below, we are using it for debugging purposes
       - name: Run main application
         run: |
-          cat exec_timetable/EXEC_TIMETABLE.json
           python3 main.py
-          cat exec_timetable/EXEC_TIMETABLE.json
+          cat exec_timetable.json
+
+      - name: Upload execution timetable
+        uses: actions/upload-artifact@v2
+        with:
+          name: exec_timetable
+          path: exec_timetable.json
