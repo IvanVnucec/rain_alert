@@ -19,7 +19,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: exec_timetable
-          key: ${{ hashFiles('EXEC_TIMETABLE.json') }}
+          key: ${{ hashFiles('./exec_timetable/EXEC_TIMETABLE.json') }}
 
       - name: Create Credentials and Receivers files
         env: 
