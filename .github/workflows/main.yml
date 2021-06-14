@@ -48,3 +48,4 @@ jobs:
         with:
           name: exec_timetable
           path: exec_timetable.json
+          retention-days: 1
