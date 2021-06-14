@@ -1,5 +1,5 @@
 # rain_alert
-You will not forget your umbrella anymore.
+You will not forget your umbrella anymore. :umbrella:
 
 ## About
 Check every morning at 5 AM local time if it will be raining that day, if yes 
