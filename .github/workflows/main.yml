@@ -27,7 +27,7 @@ jobs:
       - name: Install requirements
         run: python3 -m pip install -r requirements.txt 
 
-      - name: Download execution timetable
+      - name: Download execution timetable from the last forkflow
         uses: dawidd6/action-download-artifact@b9571484721e8187f1fd08147b497129f8972c74
         with:
           workflow: main.yml
