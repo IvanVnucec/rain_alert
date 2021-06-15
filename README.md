@@ -50,7 +50,7 @@ example6@gmail.com, Nashville Indiana
 4. Install pip dependencies from `requirements.txt` file by running `pip install -r requirements.txt`.
 5. Run app as `python3 main.py`.
 6. You can schedule the script to run once every 
-hour like we did in our CI workflow. See [GitHub Actions setup](https://github.com/IvanVnucec/rain_alert/blob/master/.github/workflows/main.yml).
+hour like we did in [our GitHub Actions CI workflow](https://github.com/IvanVnucec/rain_alert/blob/master/.github/workflows/main.yml).
 
 ## License
 [MIT](LICENSE.md)
