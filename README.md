@@ -46,7 +46,7 @@ example4@gmail.com, Mobile Alabama
 example5@gmail.com, Nashville Tennessee
 example6@gmail.com, Nashville Indiana
 ```
-3. Activate virtualenv by running `virtualenv venv`.
+3. Activate virtualenv by running `virtualenv venv` and then `source ./bin/activate`.
 4. Install pip dependencies from `requirements.txt` file by running `pip install -r requirements.txt`.
 5. Run app as `python3 main.py`.
 6. You can schedule the script to run once every 
