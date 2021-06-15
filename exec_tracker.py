@@ -41,9 +41,10 @@ class ExecTracker:
 
     def script_executed_today(self, location):
         if location.name in self.exec_times:
+            local_time = location.get_local_time()
+
             for exec_time_str in self.exec_times[location.name]:
                 exec_time = datetime.strptime(exec_time_str, DATE_FORMAT)
-                local_time = location.get_local_time()
 
                 if exec_time.date() == local_time.date():
                     return True
