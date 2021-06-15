@@ -45,7 +45,7 @@ def main():
                 print("DEBUG: Not time to send an email.")
         else:
             print("DEBUG: Script already executed today.")
-    
+
     print("DEBUG: Done.")
 
 
