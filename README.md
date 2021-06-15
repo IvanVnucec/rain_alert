@@ -39,12 +39,12 @@ openWeatherApiKey: <OpenWeather API key>
 2. Create `RECEIVERS.txt` file and put email subscribers as:
 ```
 <email>, <location name>
-example1@gmail.com, Zagreb
-example2@gmail.com, Berlin
-example3@gmail.com, Milwaukee
-example4@gmail.com, Mobile Alabama
-example5@gmail.com, Nashville Tennessee
-example6@gmail.com, Nashville Indiana
+example1@email.com, Zagreb
+example2@email.com, Berlin
+example3@email.com, Milwaukee
+example4@email.com, Mobile Alabama
+example5@email.com, Nashville Tennessee
+example6@email.com, Nashville Indiana
 ```
 3. Activate virtualenv by running `virtualenv venv` and then `source venv/bin/activate`.
 4. Install pip dependencies from `requirements.txt` file by running `pip install -r requirements.txt`.
