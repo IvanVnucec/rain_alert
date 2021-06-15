@@ -20,14 +20,15 @@ class ExecTracker:
 
         if path.exists(TIMETABLE_PATH):
             print('DEBUG: Found exec timetable file')
-            self.timetable = open(TIMETABLE_PATH, 'r+')
+            self.timetable = open(TIMETABLE_PATH, 'r')
             self.exec_times = json.load(self.timetable)
         else:
             print('DEBUG: Did not found exec timetable file. Creating new.')
             self.timetable = open(TIMETABLE_PATH, 'w')
             self.timetable.write('{}')
-            self.timetable.close()
             self.exec_times = {}
+        
+        self.timetable.close() 
 
     def __del__(self):
         if self.timetable_modified:
