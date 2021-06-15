@@ -40,7 +40,9 @@ class ExecTracker:
         if location.name in self.exec_times:
             for exec_time_str in self.exec_times[location.name]:
                 exec_time = datetime.strptime(exec_time_str, DATE_FORMAT)
-                if exec_time.date() == location.get_local_time().date():
+                local_time = location.get_local_time()
+
+                if exec_time.date() == local_time.date():
                     return True
 
         return False
@@ -49,9 +51,9 @@ class ExecTracker:
         self.timetable_modified = True
 
         location_name = location.name
-        local_time_utc_str = location.get_local_time().strftime(DATE_FORMAT)
+        local_time_str = location.get_local_time().strftime(DATE_FORMAT)
 
         if location_name in self.exec_times:
-            self.exec_times[location_name].append(local_time_utc_str)
+            self.exec_times[location_name].append(local_time_str)
         else:
-            self.exec_times[location_name] = [local_time_utc_str]
+            self.exec_times[location_name] = [local_time_str]
