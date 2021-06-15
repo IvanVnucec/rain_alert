@@ -1,9 +1,12 @@
 """
 Because GitHub actions sometimes runs in irregular intervals 
-based on server demand and not strictly once every hour,
+caused by high server demand and not strictly once every hour,
 we will track and store latest execution times. If the script
-was not executed that morning at lets say 5 AM local time, we
-would run it afterwards at 6AM, 7AM etc...
+was not executed that morning at 5 AM local time, GitHub Actions
+would run it sometimes later that day.
+If the script is ran more than once per day, it would check every
+time if it was already executed. If yes then skip.
+Execution times are being saved in exec_timetable.json file.
 """
 
 from datetime import datetime
