@@ -26,22 +26,25 @@ def main():
         executed_today = track.script_executed_today(location)
         time_to_send_email = location.get_local_time().hour >= SEND_EMAIL_HOUR
 
-        if not executed_today and time_to_send_email:
-            track.mark_exec_time(location)
+        if not executed_today:
+            if time_to_send_email:
+                track.mark_exec_time(location)
 
-            forecast = Forecast(location)
+                forecast = Forecast(location)
 
-            if forecast.rain_today():
-                print("DEBUG: Rain today.")
-                message = forecast.get_forecast_message()
+                if forecast.rain_today():
+                    print("DEBUG: Rain today.")
+                    message = forecast.get_forecast_message()
 
-                for email in emails:
-                    print("DEBUG: Sending email message.")
-                    #send_forecast_message(gmail, email, message)
+                    for email in emails:
+                        print("DEBUG: Sending email message.")
+                        #send_forecast_message(gmail, email, message)
+                else:
+                    print("DEBUG: No rain today.")
             else:
-                print("DEBUG: No rain today.")
+                print("DEBUG: Not time to send an email.")
         else:
-            print("DEBUG: Script already executed or not time to send an email.")
+            print("DEBUG: Script already executed today.")
     
     print("DEBUG: Done.")
 
