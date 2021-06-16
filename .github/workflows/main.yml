@@ -58,10 +58,7 @@ jobs:
       # if Download exec timetable step failed still run the script
       - name: Run main application
         if: always()
-        # Delete the cat line below. We are using it for debugging purposes.
-        run: |
-          python3 main.py
-          cat exec_timetable.json
+        run: python3 main.py
 
       - name: Upload execution timetable
         if: always()
@@ -69,7 +66,6 @@ jobs:
         with:
           name: exec_timetable
           path: exec_timetable.json
-          retention-days: 1
 
       # This step uses Github Actions secrets FAIL_MAIL_USERNAME and FAIL_MAIL_PASSWORD 
       # which are Gmail username and password respectively.

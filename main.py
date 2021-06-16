@@ -34,19 +34,10 @@ def main():
                 forecast = Forecast(location)
 
                 if forecast.rain_today():
-                    print("DEBUG: Rain today.")
                     message = forecast.get_forecast_message()
 
                     for email in emails:
-                        print("DEBUG: Sending email message.")
-                        # TODO: Uncomment line below once debugging is over
-                        #send_forecast_message(gmail, email, message)
-                else:
-                    print("DEBUG: No rain today.")
-            else:
-                print("DEBUG: Not time to send an email.")
-        else:
-            print("DEBUG: Script already executed today.")
+                        send_forecast_message(gmail, email, message)
 
     print("DEBUG: Done.")
 
