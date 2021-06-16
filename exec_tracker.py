@@ -11,18 +11,23 @@ Execution times are being saved in exec_timetable.json file.
 
 from datetime import datetime
 import json
-from os import path
+from os import path, remove
+from pyAesCrypt import encryptFile, decryptFile
 
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
 TIMETABLE_PATH = 'exec_timetable.json'
+TIMETABLE_PATH_ENCRYPTED = TIMETABLE_PATH + '.aes'
 
 
 class ExecTracker:
-    def __init__(self):
+    def __init__(self, password):
         self.timetable_modified = False
+        self.__password = password
 
-        if path.exists(TIMETABLE_PATH):
+        if path.exists(TIMETABLE_PATH_ENCRYPTED):
             print('DEBUG: Found exec timetable file')
+            # decrypt the file
+            decryptFile(TIMETABLE_PATH_ENCRYPTED, TIMETABLE_PATH, self.__password)
             self.timetable = open(TIMETABLE_PATH, 'r')
             self.exec_times = json.load(self.timetable)
         else:
@@ -38,6 +43,12 @@ class ExecTracker:
             self.timetable = open(TIMETABLE_PATH, 'r+')
             json.dump(self.exec_times, self.timetable, indent=4)
             self.timetable.close()
+
+        # encrypt the file
+        encryptFile(TIMETABLE_PATH, TIMETABLE_PATH_ENCRYPTED, self.__password)
+        # delete original file
+        remove(TIMETABLE_PATH)
+
 
     def script_executed_today(self, location):
         if location.name in self.exec_times:
