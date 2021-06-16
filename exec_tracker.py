@@ -11,10 +11,13 @@ Execution times are being saved in exec_timetable.json file.
 
 from datetime import datetime
 import json
-from os import path, urandom
-from hashlib import pbkdf2_hmac, sha256
+from os import path
+from hashlib import pbkdf2_hmac
 from utils import CREDENTIALS_FILE_PATH
 
+""" TODO: Remove hour, minute and seconds and leave just the date.
+          Then secure the datetime checking with a hash like we did with
+          the location name. """
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
 TIMETABLE_PATH = 'exec_timetable.json'
 
@@ -33,8 +36,8 @@ class ExecTracker:
             self.timetable = open(TIMETABLE_PATH, 'w')
             self.timetable.write('{}')
             self.exec_times = {}
-        
-        self.timetable.close() 
+
+        self.timetable.close()
 
     def __del__(self):
         if self.timetable_modified:
@@ -43,15 +46,11 @@ class ExecTracker:
             self.timetable.close()
 
     def __generate_secure_key(self, string):
-        """
-        # key has structure as follows "salt+pbkdf2_hmac"
-        salt = urandom(32)
-        key = salt + pbkdf2_hmac('sha256', string.encode('utf-8'), salt, 100000)
-        """
-        # naive approach with simple sha256 and a secret
-        # TODO: Run sha256 multiple times (like 100000)
-        digest = self.__secrets + string
-        return sha256(digest.encode('utf-8')).hexdigest()
+        string_bytes = string.encode('utf-8')
+        secret_bytes = self.__secrets.encode('utf-8')
+        hash = pbkdf2_hmac('sha256', string_bytes, secret_bytes, 100000)
+
+        return hash.hex()
 
     def script_executed_today(self, location):
         key = self.__generate_secure_key(location.name)
