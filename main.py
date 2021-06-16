@@ -13,13 +13,14 @@ def send_forecast_message(gmail, receiver, message):
 
 
 def main():
-    track = ExecTracker()
-
     sender, password = get_email_credentials()
     receivers = get_receivers()
 
     gmail = Gmail(sender, password)
 
+    # exec tracker needs secrets in order to securely store exec times
+    secrets = sender + password
+    track = ExecTracker(secrets)
     for locationName, emails in receivers.items():
         location = Location(locationName)
 
