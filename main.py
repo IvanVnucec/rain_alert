@@ -39,8 +39,7 @@ def main():
 
                     for email in emails:
                         print("DEBUG: Sending email message.")
-                        # TODO: Uncomment line below once debugging is over
-                        #send_forecast_message(gmail, email, message)
+                        send_forecast_message(gmail, email, message)
                 else:
                     print("DEBUG: No rain today.")
             else:
