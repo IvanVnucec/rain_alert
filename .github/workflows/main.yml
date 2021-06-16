@@ -36,6 +36,7 @@ jobs:
           workflow: main.yml
           name: exec_timetable
           path: ./.
+          branch: master
 
       # We have implemented this because sometimes the download step above would not retrieve
       # the artifacts uploaded from the last workflow returning the {"count":11,"value":"Uri expired"}
@@ -52,6 +53,7 @@ jobs:
           workflow: main.yml
           name: exec_timetable
           path: ./.
+          branch: master
 
       # if Download exec timetable step failed still run the script
       - name: Run main application
