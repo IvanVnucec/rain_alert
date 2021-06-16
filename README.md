@@ -1,3 +1,5 @@
+[![App running](https://github.com/IvanVnucec/rain_alert/actions/workflows/main.yml/badge.svg?branch=master&event=schedule)](https://github.com/IvanVnucec/rain_alert/actions/workflows/main.yml)
+
 # rain_alert
 You will not forget your umbrella anymore. :umbrella:
 
