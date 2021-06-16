@@ -33,5 +33,9 @@ class Location:
         local_time = self.get_local_time()
         return local_time.astimezone(pytz.utc)
 
+    def get_local_time_str(self, date_format):
+        # for ex. date_format = '%m/%d/%Y'
+        return self.get_local_time().strftime(date_format)
+
     def get_latitude_longitude(self):
         return self.point.latitude, self.point.longitude

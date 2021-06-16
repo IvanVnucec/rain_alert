@@ -9,16 +9,11 @@ time if it was already executed. If yes then skip.
 Execution times are being saved in exec_timetable.json file.
 """
 
-from datetime import datetime
 import json
 from os import path
 from hashlib import pbkdf2_hmac
-from utils import CREDENTIALS_FILE_PATH
 
-""" TODO: Remove hour, minute and seconds and leave just the date.
-          Then secure the datetime checking with a hash like we did with
-          the location name. """
-DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
+DATE_FORMAT = '%m/%d/%Y'
 TIMETABLE_PATH = 'exec_timetable.json'
 
 
@@ -52,16 +47,21 @@ class ExecTracker:
 
         return hash.hex()
 
+    def __generate_local_exec_time_key(self, location):
+        local_time_str = location.get_local_time_str(DATE_FORMAT)
+        return self.__generate_secure_key(local_time_str)
+
+    def __generate_location_name_key(self, location):
+        return self.__generate_secure_key(location.name)
+
     def script_executed_today(self, location):
-        key = self.__generate_secure_key(location.name)
+        location_name_key = self.__generate_location_name_key(location)
 
-        if key in self.exec_times:
-            local_time = location.get_local_time()
+        if location_name_key in self.exec_times:
+            local_exec_time_key = self.__generate_local_exec_time_key(location)
 
-            for exec_time_str in self.exec_times[key]:
-                exec_time = datetime.strptime(exec_time_str, DATE_FORMAT)
-
-                if exec_time.date() == local_time.date():
+            for exec_time_key in self.exec_times[location_name_key]:
+                if exec_time_key == local_exec_time_key:
                     return True
 
         return False
@@ -69,11 +69,10 @@ class ExecTracker:
     def mark_exec_time(self, location):
         self.timetable_modified = True
 
-        location_name = location.name
-        key = self.__generate_secure_key(location_name)
-        local_time_str = location.get_local_time().strftime(DATE_FORMAT)
+        location_name_key = self.__generate_location_name_key(location)
+        exec_time_key = self.__generate_local_exec_time_key(location)
 
-        if key in self.exec_times:
-            self.exec_times[key].append(local_time_str)
+        if location_name_key in self.exec_times:
+            self.exec_times[location_name_key].append(exec_time_key)
         else:
-            self.exec_times[key] = [local_time_str]
+            self.exec_times[location_name_key] = [exec_time_key]
