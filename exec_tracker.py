@@ -11,7 +11,8 @@ Execution times are being saved in exec_timetable.json file.
 
 from datetime import datetime
 import json
-from os import path
+from os import path, urandom
+from hashlib import pbkdf2_hmac, sha256
 
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
 TIMETABLE_PATH = 'exec_timetable.json'
@@ -39,11 +40,24 @@ class ExecTracker:
             json.dump(self.exec_times, self.timetable, indent=4)
             self.timetable.close()
 
+    def __generate_secure_key(self, string):
+        """
+        # key has structure as follows "salt+pbkdf2_hmac"
+        salt = urandom(32)
+        key = salt + pbkdf2_hmac('sha256', string.encode('utf-8'), salt, 100000)
+        """
+        # naive approach with simple sha256
+        key = sha256(string.encode('utf-8')).hexdigest()
+
+        return key
+
     def script_executed_today(self, location):
-        if location.name in self.exec_times:
+        key = self.__generate_secure_key(location.name)
+
+        if key in self.exec_times:
             local_time = location.get_local_time()
 
-            for exec_time_str in self.exec_times[location.name]:
+            for exec_time_str in self.exec_times[key]:
                 exec_time = datetime.strptime(exec_time_str, DATE_FORMAT)
 
                 if exec_time.date() == local_time.date():
@@ -55,9 +69,10 @@ class ExecTracker:
         self.timetable_modified = True
 
         location_name = location.name
+        key = self.__generate_secure_key(location_name)
         local_time_str = location.get_local_time().strftime(DATE_FORMAT)
 
-        if location_name in self.exec_times:
-            self.exec_times[location_name].append(local_time_str)
+        if key in self.exec_times:
+            self.exec_times[key].append(local_time_str)
         else:
-            self.exec_times[location_name] = [local_time_str]
+            self.exec_times[key] = [local_time_str]
