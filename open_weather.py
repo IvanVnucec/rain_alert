@@ -4,6 +4,7 @@ from utils import get_openWeather_api_key
 
 
 class OpenWeather:
+    # we want to get API key only once
     __API_KEY = get_openWeather_api_key()
 
     def __init__(self):
