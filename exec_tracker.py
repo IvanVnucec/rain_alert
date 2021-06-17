@@ -7,6 +7,9 @@ would run it sometimes later that day.
 If the script is ran more than once per day, it would check every
 time if it was already executed. If yes then skip.
 Execution times are being saved in exec_timetable.json file.
+Before closing execution timetable file it is being encrypted
+with AES into exec_timetable.json.aes file with some password.
+Be sure that the password is kept as a secret.
 """
 
 from datetime import datetime
