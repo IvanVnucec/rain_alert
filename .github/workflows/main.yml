@@ -59,9 +59,7 @@ jobs:
       - name: Run main application
         if: always()
         # Delete the cat line below. We are using it for debugging purposes.
-        run: |
-          python3 main.py
-          cat exec_timetable.json
+        run: python3 main.py
 
       - name: Upload execution timetable
         if: always()
