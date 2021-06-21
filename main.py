@@ -28,7 +28,8 @@ def main():
         time_to_send_email = location.get_local_time().hour >= SEND_EMAIL_HOUR
 
         if not executed_today and time_to_send_email:
-            # mark execution time only when time to send en email
+            """ mark execution time only when time to send en email because 
+            we don't want to exceed the number of free OpenWeather API calls """ 
             track.mark_exec_time(location)
 
             forecast = Forecast(location)
