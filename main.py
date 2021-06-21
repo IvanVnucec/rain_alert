@@ -1,4 +1,4 @@
-from utils import get_email_credentials, get_receivers
+from utils import get_email_credentials, get_receivers, debug
 from gmail import Gmail
 from forecast import Forecast
 from location import Location
@@ -27,18 +27,17 @@ def main():
         executed_today = track.script_executed_today(location)
         time_to_send_email = location.get_local_time().hour >= SEND_EMAIL_HOUR
 
-        if not executed_today:
-            if time_to_send_email:
-                # mark execution time only when time to send en email
-                track.mark_exec_time(location)
+        if not executed_today and time_to_send_email:
+            # mark execution time only when time to send en email
+            track.mark_exec_time(location)
 
-                forecast = Forecast(location)
+            forecast = Forecast(location)
 
-                if forecast.rain_today():
-                    message = forecast.get_forecast_message()
+            if forecast.rain_today():
+                message = forecast.get_forecast_message()
 
-                    for email in emails:
-                        send_forecast_message(gmail, email, message)
+                for email in emails:
+                    send_forecast_message(gmail, email, message)
 
     debug("Application finished.")
 
