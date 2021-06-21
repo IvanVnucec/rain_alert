@@ -1,7 +1,7 @@
 import yaml
 
-CREDENTIALS_FILE_PATH = 'CREDENTIALS.yaml'
-RECEIVERS_FILE_PATH = 'RECEIVERS.txt'
+CREDENTIALS_FILE_PATH = 'credentials.yaml'
+RECEIVERS_FILE_PATH = 'receivers.txt'
 
 
 def get_email_credentials():

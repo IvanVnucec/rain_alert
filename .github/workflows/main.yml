@@ -23,8 +23,8 @@ jobs:
           CREDENTIALS: ${{ secrets.CREDENTIALS }}
           RECEIVERS: ${{ secrets.RECEIVERS }}
         run: |
-          echo "$CREDENTIALS" > CREDENTIALS.yaml
-          echo "$RECEIVERS" > RECEIVERS.txt
+          echo "$CREDENTIALS" > credentials.yaml
+          echo "$RECEIVERS" > receivers.txt
 
       - name: Install requirements
         run: python3 -m pip install -r requirements.txt
