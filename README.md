@@ -1,4 +1,4 @@
-[![App running](https://github.com/IvanVnucec/rain_alert/actions/workflows/main.yml/badge.svg?branch=master&event=schedule)](https://github.com/IvanVnucec/rain_alert/actions/workflows/main.yml)
+[![App running](https://github.com/IvanVnucec/rain_alert/actions/workflows/weather_check.yml/badge.svg?branch=master&event=schedule)](https://github.com/IvanVnucec/rain_alert/actions/workflows/weather_check.yml)
 
 # rain_alert
 You will not forget your umbrella anymore. :umbrella:
@@ -51,7 +51,8 @@ example6@email.com, Nashville Indiana
 3. Activate virtualenv by running `virtualenv venv` and then `source venv/bin/activate`.
 4. Install pip dependencies from `requirements.txt` file by running `pip install -r requirements.txt`.
 5. Run app as `python3 main.py`.
-6. You can schedule the script to run on GitHub servers like we did in [our GitHub Actions CI workflow](https://github.com/IvanVnucec/rain_alert/blob/master/.github/workflows/main.yml). 
+6. You can schedule the script to run on GitHub servers like we did in 
+[our GitHub Actions CI workflow](https://github.com/IvanVnucec/rain_alert/blob/master/.github/workflows/weather_check.yml). 
 See the [Instructions](./.github/workflows/README.md) for more info.
 
 ## License

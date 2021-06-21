@@ -1,4 +1,4 @@
-name: Run application
+name: Weather check
 
 on:
   schedule:
@@ -33,7 +33,7 @@ jobs:
         id: download_exec_timetable
         uses: dawidd6/action-download-artifact@b9571484721e8187f1fd08147b497129f8972c74
         with:
-          workflow: main.yml
+          workflow: weather_check.yml
           name: exec_timetable
           path: ./.
           branch: master
@@ -50,7 +50,7 @@ jobs:
         if: ${{ always() && steps.download_exec_timetable.outcome == 'failure' }}
         uses: dawidd6/action-download-artifact@b9571484721e8187f1fd08147b497129f8972c74
         with:
-          workflow: main.yml
+          workflow: weather_check.yml
           name: exec_timetable
           path: ./.
           branch: master
