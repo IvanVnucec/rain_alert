@@ -40,7 +40,7 @@ def main():
                     for email in emails:
                         send_forecast_message(gmail, email, message)
 
-    print("DEBUG: Done.")
+    debug("Application finished.")
 
 
 if __name__ == "__main__":

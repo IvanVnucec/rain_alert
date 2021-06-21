@@ -1,6 +1,6 @@
 import requests
 from datetime import datetime
-from utils import get_openWeather_api_key
+from utils import get_openWeather_api_key, error
 
 
 class OpenWeather:
@@ -21,7 +21,7 @@ class OpenWeather:
         try:
             response = requests.get(API_URL)
         except:
-            exit('ERROR: OpenWeather API request failed.')
+            error('OpenWeather API request failed.')
 
         return response.json()
 

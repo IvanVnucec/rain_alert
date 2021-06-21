@@ -16,6 +16,7 @@ from datetime import datetime
 import json
 from os import path, remove
 from pyAesCrypt import encryptFile, decryptFile
+from utils import debug
 
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
 TIMETABLE_PATH = 'exec_timetable.json'
@@ -28,18 +29,17 @@ class ExecTracker:
         self.__password = password
 
         if path.exists(TIMETABLE_PATH_ENCRYPTED):
-            print('DEBUG: Found exec timetable file')
-            # decrypt the file
+            debug('Found exec timetable file')
             decryptFile(TIMETABLE_PATH_ENCRYPTED, TIMETABLE_PATH, self.__password)
             self.timetable = open(TIMETABLE_PATH, 'r')
             self.exec_times = json.load(self.timetable)
         else:
-            print('DEBUG: Did not found exec timetable file. Creating new.')
+            debug('Did not found exec timetable file. Creating new.')
             self.timetable = open(TIMETABLE_PATH, 'w')
             self.timetable.write('{}')
             self.exec_times = {}
         
-        self.timetable.close() 
+        self.timetable.close()
 
     def __del__(self):
         if self.timetable_modified:
@@ -47,7 +47,6 @@ class ExecTracker:
             json.dump(self.exec_times, self.timetable, indent=4)
             self.timetable.close()
 
-        # encrypt the file
         encryptFile(TIMETABLE_PATH, TIMETABLE_PATH_ENCRYPTED, self.__password)
         # delete original file
         remove(TIMETABLE_PATH)

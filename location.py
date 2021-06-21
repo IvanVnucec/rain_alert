@@ -2,6 +2,7 @@ from timezonefinder import TimezoneFinder
 from datetime import datetime
 from geopy import geocoders
 import pytz
+from utils import error
 
 GEOLOC_APP_NAME = 'Locator-request-app'
 
@@ -15,7 +16,7 @@ class Location:
         self.point = geolocator.geocode(self.name)
 
         if self.point == None:
-            exit(f'ERROR: Can not find place by name.')
+            error('Can not find place by name.')
 
         # get timezone
         tf = TimezoneFinder()

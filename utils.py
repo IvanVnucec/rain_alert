@@ -10,7 +10,7 @@ def get_email_credentials():
             credentials = yaml.load(file, Loader=yaml.FullLoader)
 
     except FileNotFoundError:
-        exit('ERROR: credentials file not found.')
+        error('Credentials file not found.')
 
     sender = credentials['senderEmail']
     password = credentials['senderPassword']
@@ -24,7 +24,7 @@ def get_openWeather_api_key():
             credentials = yaml.load(file, Loader=yaml.FullLoader)
 
     except FileNotFoundError:
-        exit('ERROR: credentials file not found.')
+        error('Credentials file not found.')
 
     return credentials['openWeatherApiKey']
 
@@ -35,7 +35,7 @@ def get_receivers():
             lines = file.read().splitlines()
 
     except FileNotFoundError:
-        exit('ERROR: email list file not found.')
+        error('Email list file not found.')
 
     if lines:
         locations = {}
@@ -53,4 +53,12 @@ def get_receivers():
         return locations
 
     else:
-        exit('ERROR: no emails list found.')
+        error('No emails list found.')
+
+
+def debug(msg):
+    print('DEBUG: ' + msg)
+
+
+def error(msg):
+    exit('ERROR: ' + msg)

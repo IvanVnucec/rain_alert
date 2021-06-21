@@ -2,6 +2,7 @@ import smtplib
 import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from utils import error
 
 
 SSL_PORT = 465
@@ -18,7 +19,7 @@ class Gmail:
         try:
             self.__server.login(self.sender, password)
         except smtplib.SMTPAuthenticationError:
-            exit('ERROR: Wrong username or password.')
+            error('Wrong username or password.')
 
     def send(self, receiver, subject, content, contentHtml=None):
         message = MIMEMultipart("alternative")
