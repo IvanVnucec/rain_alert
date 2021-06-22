@@ -6,7 +6,7 @@ init: venv
 
 PHONY: test
 test: venv
-	. venv/bin/activate; python -m unittest
+	. venv/bin/activate; python tests/test_example.py
 
 PHONY: clean
 clean:
