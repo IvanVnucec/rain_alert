@@ -1,6 +1,4 @@
 venv
 __pycache__
-credentials.yaml
-receivers.txt
 exec_timetable.json
 exec_timetable.json.aes
