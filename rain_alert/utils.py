@@ -1,8 +1,8 @@
 import yaml
-import os
+from os import path
 
-CREDENTIALS_FILE_PATH = os.path.join('credentials', 'credentials.yaml')
-RECEIVERS_FILE_PATH = os.path.join('credentials', 'receivers.txt')
+CREDENTIALS_FILE_PATH = path.abspath(path.join('credentials', 'credentials.yaml'))
+RECEIVERS_FILE_PATH = path.abspath(path.join('credentials', 'receivers.txt'))
 
 
 def get_email_credentials():
@@ -36,9 +36,9 @@ def get_receivers():
             lines = file.read().splitlines()
 
     except FileNotFoundError:
-        error('Email list file not found.')
-
-    if lines:
+        return None
+    
+    else:
         locations = {}
 
         for line in lines:
@@ -52,9 +52,6 @@ def get_receivers():
             locations[location].append(receiver)
 
         return locations
-
-    else:
-        error('No emails list found.')
 
 
 def debug(msg):

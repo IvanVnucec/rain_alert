@@ -1,4 +1,4 @@
-from utils import get_email_credentials, get_receivers, debug
+from utils import error, get_email_credentials, get_receivers, debug
 from gmail import Gmail
 from forecast import Forecast
 from location import Location
@@ -15,6 +15,7 @@ def send_forecast_message(gmail, receiver, message):
 def main():
     sender, password = get_email_credentials()
     receivers = get_receivers()
+    if not receivers: error('No receivers imported.')
 
     gmail = Gmail(sender, password)
     
