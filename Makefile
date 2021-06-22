@@ -1,5 +1,5 @@
 run: init
-	. venv/bin/activate; python main.py
+	. venv/bin/activate; python rain_alert/main.py
 
 PHONY: init
 init: venv

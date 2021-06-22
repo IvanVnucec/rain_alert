@@ -19,7 +19,7 @@ from pyAesCrypt import encryptFile, decryptFile
 from utils import debug
 
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
-TIMETABLE_PATH = 'exec_timetable.json'
+TIMETABLE_PATH = path.join('logs', 'exec_timetable.json')
 TIMETABLE_PATH_ENCRYPTED = TIMETABLE_PATH + '.aes'
 
 

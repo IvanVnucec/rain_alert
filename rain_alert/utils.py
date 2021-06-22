@@ -1,7 +1,8 @@
 import yaml
+import os
 
-CREDENTIALS_FILE_PATH = 'credentials.yaml'
-RECEIVERS_FILE_PATH = 'receivers.txt'
+CREDENTIALS_FILE_PATH = os.path.join('credentials', 'credentials.yaml')
+RECEIVERS_FILE_PATH = os.path.join('credentials', 'receivers.txt')
 
 
 def get_email_credentials():
