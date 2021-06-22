@@ -28,7 +28,6 @@ jobs:
           CREDENTIALS: ${{ secrets.CREDENTIALS }}
           RECEIVERS: ${{ secrets.RECEIVERS }}
         run: |
-          mkdir credentials
           echo "$CREDENTIALS" > credentials/credentials.yaml
           echo "$RECEIVERS" > credentials/receivers.txt
 
