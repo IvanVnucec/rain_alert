@@ -48,10 +48,8 @@ example4@email.com, Mobile Alabama
 example5@email.com, Nashville Tennessee
 example6@email.com, Nashville Indiana
 ```
-3. Activate virtualenv by running `virtualenv venv` and then `source venv/bin/activate`.
-4. Install pip dependencies from `requirements.txt` file by running `pip install -r requirements.txt`.
-5. Run app as `python3 main.py`.
-6. You can schedule the script to run on GitHub servers like we did in 
+3. Run the app using Makefile as `make run`
+4. (Recommended) You can schedule the script to run on GitHub servers like we did in 
 [our GitHub Actions CI workflow](https://github.com/IvanVnucec/rain_alert/blob/master/.github/workflows/weather_check.yml). 
 See the [Instructions](./.github/workflows/README.md) for more info.
 

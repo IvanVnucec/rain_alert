@@ -32,7 +32,7 @@ jobs:
           echo "$RECEIVERS" > receivers.txt
 
       - name: Install requirements
-        run: python3 -m pip install -r requirements.txt
+        run: make init
 
       - name: Download execution timetable from the last workflow
         id: download_exec_timetable
@@ -63,7 +63,7 @@ jobs:
       # if Download exec timetable step failed still run the script
       - name: Run main application
         if: always()
-        run: python3 main.py
+        run: make run
 
       - name: Upload execution timetable
         if: always()
