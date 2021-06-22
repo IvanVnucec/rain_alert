@@ -28,8 +28,9 @@ jobs:
           CREDENTIALS: ${{ secrets.CREDENTIALS }}
           RECEIVERS: ${{ secrets.RECEIVERS }}
         run: |
-          echo "$CREDENTIALS" > credentials.yaml
-          echo "$RECEIVERS" > receivers.txt
+          mkdir credentials
+          echo "$CREDENTIALS" > credentials/credentials.yaml
+          echo "$RECEIVERS" > credentials/receivers.txt
 
       - name: Install requirements
         run: make init
@@ -40,7 +41,7 @@ jobs:
         with:
           workflow: weather_check.yml
           name: exec_timetable
-          path: ./.
+          path: ./logs
           branch: master
 
       # We have implemented this because sometimes the download step above would not retrieve
@@ -57,7 +58,7 @@ jobs:
         with:
           workflow: weather_check.yml
           name: exec_timetable
-          path: ./.
+          path: ./logs
           branch: master
 
       # if Download exec timetable step failed still run the script
@@ -70,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@ee69f02b3dfdecd58bb31b4d133da38ba6fe3700
         with:
           name: exec_timetable
-          path: exec_timetable.json.aes
+          path: logs/exec_timetable.json.aes
 
       # This step uses Github Actions secrets FAIL_MAIL_USERNAME and FAIL_MAIL_PASSWORD 
       # which are Gmail username and password respectively.
