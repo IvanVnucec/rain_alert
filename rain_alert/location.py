@@ -12,16 +12,19 @@ class Location:
         self.name = name
 
         # get latitude, longitude
-        geolocator = geocoders.Nominatim(user_agent=GEOLOC_APP_NAME)
-        self.point = geolocator.geocode(self.name)
+        try:
+            geolocator = geocoders.Nominatim(user_agent=GEOLOC_APP_NAME)
+            self.point = geolocator.geocode(self.name)
+        except Exception as e:
+            error(e)
+        else:
+            if self.point == None:
+                error(f"Could not find '{self.name}'.")
 
-        if self.point == None:
-            error('Can not find place by name.')
-
-        # get timezone
-        tf = TimezoneFinder()
-        self.timezone = tf.timezone_at(
-            lat=self.point.latitude, lng=self.point.longitude)
+            # get timezone
+            tf = TimezoneFinder()
+            self.timezone = tf.timezone_at(
+                lat=self.point.latitude, lng=self.point.longitude)
 
     def get_location_name(self):
         return self.name
