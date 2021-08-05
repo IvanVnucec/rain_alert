@@ -34,11 +34,19 @@ jobs:
       - name: Install requirements
         run: make init
 
-      - name: Download execution timetable from the last workflow
+      - name: Get the last Github Actions Run number
+        env: 
+          RUN_NUMBER: ${{ github.run_number }}
+
+        run: |
+          echo "GH_RUN_NUMBER=$(($RUN_NUMBER-1))" >> $GITHUB_ENV
+
+      - name: Download execution timetable from the last workflow 1
         id: download_exec_timetable
         uses: dawidd6/action-download-artifact@b9571484721e8187f1fd08147b497129f8972c74
         with:
           workflow: weather_check.yml
+          run_number: ${{ env.GH_RUN_NUMBER }}
           name: exec_timetable
           path: ./logs
           branch: master
@@ -51,11 +59,12 @@ jobs:
         run: sleep 10s
         if: ${{ always() && steps.download_exec_timetable.outcome == 'failure' }}
 
-      - name: Try again to download execution timetable from the last workflow
+      - name: Try again to download execution timetable from the last workflow 2
         if: ${{ always() && steps.download_exec_timetable.outcome == 'failure' }}
         uses: dawidd6/action-download-artifact@b9571484721e8187f1fd08147b497129f8972c74
         with:
           workflow: weather_check.yml
+          workflow_conclusion: completed
           name: exec_timetable
           path: ./logs
           branch: master

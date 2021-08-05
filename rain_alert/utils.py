@@ -63,7 +63,11 @@ def get_receivers():
 
 
 def debug(msg):
-    print('DEBUG: ' + msg)
+    if type(msg) is dict:
+        print('DEBUG: ')
+        print(msg)
+    else:
+        print('DEBUG: ' + msg)
 
 
 def error(msg):

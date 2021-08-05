@@ -21,6 +21,7 @@ from utils import debug
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
 TIMETABLE_PATH = path.abspath(path.join('logs', 'exec_timetable.json'))
 TIMETABLE_PATH_ENCRYPTED = TIMETABLE_PATH + '.aes'
+BUFFERSIZE = 64 * 1024
 
 
 class ExecTracker:
@@ -30,9 +31,10 @@ class ExecTracker:
 
         if path.exists(TIMETABLE_PATH_ENCRYPTED):
             debug('Found exec timetable file')
-            decryptFile(TIMETABLE_PATH_ENCRYPTED, TIMETABLE_PATH, self.__password)
+            decryptFile(TIMETABLE_PATH_ENCRYPTED, TIMETABLE_PATH, self.__password, BUFFERSIZE)
             self.timetable = open(TIMETABLE_PATH, 'r')
             self.exec_times = json.load(self.timetable)
+            debug(self.exec_times)
         else:
             debug('Did not found exec timetable file. Creating new.')
             self.timetable = open(TIMETABLE_PATH, 'w')
@@ -41,14 +43,24 @@ class ExecTracker:
         
         self.timetable.close()
 
-    def __del__(self):
+    def close(self):
         if self.timetable_modified:
+            debug('Timetable is modified. Saving now.')
             self.timetable = open(TIMETABLE_PATH, 'r+')
             json.dump(self.exec_times, self.timetable, indent=4)
             self.timetable.close()
+        else:
+            debug('Timetable was not modified.')
 
-        encryptFile(TIMETABLE_PATH, TIMETABLE_PATH_ENCRYPTED, self.__password)
-        # delete original file
+        debug('Showing execution timetable before encryption.')
+        debug(self.exec_times)
+
+        debug('Encrypting file.')
+        if path.exists(TIMETABLE_PATH_ENCRYPTED):
+            remove(TIMETABLE_PATH_ENCRYPTED)
+
+        encryptFile(TIMETABLE_PATH, TIMETABLE_PATH_ENCRYPTED, self.__password, BUFFERSIZE)
+        debug('Deleting original file.')
         remove(TIMETABLE_PATH)
 
 

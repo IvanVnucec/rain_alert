@@ -2,7 +2,7 @@ from timezonefinder import TimezoneFinder
 from datetime import datetime
 from geopy import geocoders
 import pytz
-from utils import error
+from utils import error, debug
 
 GEOLOC_APP_NAME = 'Locator-request-app'
 
@@ -25,13 +25,16 @@ class Location:
             tf = TimezoneFinder()
             self.timezone = tf.timezone_at(
                 lat=self.point.latitude, lng=self.point.longitude)
+            debug(f'Timezone: {self.timezone}')
 
     def get_location_name(self):
         return self.name
 
     def get_local_time(self):
         tz = pytz.timezone(self.timezone)
-        return datetime.now(tz)
+        local_time = datetime.now(tz) 
+        debug(f'Local time: {local_time}')
+        return local_time
 
     def get_local_time_utc(self):
         local_time = self.get_local_time()
