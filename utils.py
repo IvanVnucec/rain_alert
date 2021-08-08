@@ -1,8 +1,7 @@
-from logging import DEBUG, exception
 import yaml
 from os import path
 
-DEBUG_PRINT = False
+DEBUG_PRINT = True
 CREDENTIALS_FILE_PATH = path.abspath(
     path.join('credentials', 'credentials.yaml'))
 RECEIVERS_FILE_PATH = path.abspath(path.join('credentials', 'receivers.txt'))
