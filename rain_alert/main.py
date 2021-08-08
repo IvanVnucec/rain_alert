@@ -15,7 +15,7 @@ def send_forecast_message(gmail, receiver, message):
 def main():
     sender, password = get_email_credentials()
     receivers = get_receivers()
-    if not receivers: error('No receivers imported.')
+    if len(receivers) == 0: error('No receivers imported.')
 
     gmail = Gmail(sender, password)
     

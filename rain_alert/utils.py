@@ -45,7 +45,7 @@ def get_receivers():
         with open(RECEIVERS_FILE_PATH, 'r') as file:
             lines = file.read().splitlines()
     except FileNotFoundError:
-        return None
+            error(f"Could not open {RECEIVERS_FILE_PATH}. Check if the file exist with the correct name.")
     else:
         locations = {}
 
