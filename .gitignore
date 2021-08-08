@@ -2,5 +2,3 @@ venv
 __pycache__
 credentials/credentials.yaml
 credentials/receivers.txt
-exec_timetable.json
-exec_timetable.json.aes

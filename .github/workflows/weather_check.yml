@@ -34,43 +34,15 @@ jobs:
       - name: Install requirements
         run: make init
 
-      - name: Download execution timetable from the last workflow
-        id: download_exec_timetable
-        uses: dawidd6/action-download-artifact@b9571484721e8187f1fd08147b497129f8972c74
-        with:
-          workflow: weather_check.yml
-          name: exec_timetable
-          path: ./logs
-          branch: master
-
-      # We have implemented this because sometimes the download step above would not retrieve
-      # the artifacts uploaded from the last workflow returning the {"count":11,"value":"Uri expired"}
-      # error.
-      - name: Sleep for 10 seconds if Download exec timetable step failed
-        shell: bash
-        run: sleep 10s
-        if: ${{ always() && steps.download_exec_timetable.outcome == 'failure' }}
-
-      - name: Try again to download execution timetable from the last workflow
-        if: ${{ always() && steps.download_exec_timetable.outcome == 'failure' }}
-        uses: dawidd6/action-download-artifact@b9571484721e8187f1fd08147b497129f8972c74
-        with:
-          workflow: weather_check.yml
-          name: exec_timetable
-          path: ./logs
-          branch: master
-
       # if Download exec timetable step failed still run the script
       - name: Run main application
-        if: always()
         run: make run
 
       - name: Upload execution timetable
         if: always()
-        uses: actions/upload-artifact@ee69f02b3dfdecd58bb31b4d133da38ba6fe3700
+        uses: EndBug/add-and-commit@2bdc0a61a03738a1d1bda24d566ad0dbe3083d87
         with:
-          name: exec_timetable
-          path: logs/exec_timetable.json.aes
+          add: 'logs/exec_timetable.json.aes'
 
       # This step uses Github Actions secrets FAIL_MAIL_USERNAME and FAIL_MAIL_PASSWORD 
       # which are Gmail username and password respectively.

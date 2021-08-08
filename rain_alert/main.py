@@ -43,7 +43,7 @@ def main():
 
                 for email in emails:
                     debug('Sending email message.')
-                    #send_forecast_message(gmail, email, message)
+                    send_forecast_message(gmail, email, message)
             else:
                 debug('It will not rain today.')
 
