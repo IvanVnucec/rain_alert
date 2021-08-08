@@ -1,7 +1,8 @@
-from logging import exception
+from logging import DEBUG, exception
 import yaml
 from os import path
 
+DEBUG_PRINT = False
 CREDENTIALS_FILE_PATH = path.abspath(
     path.join('credentials', 'credentials.yaml'))
 RECEIVERS_FILE_PATH = path.abspath(path.join('credentials', 'receivers.txt'))
@@ -63,11 +64,12 @@ def get_receivers():
 
 
 def debug(msg):
-    if type(msg) is dict:
-        print('DEBUG: ')
-        print(msg)
-    else:
-        print('DEBUG: ' + msg)
+    if DEBUG_PRINT:
+        if type(msg) is dict:
+            print('DEBUG: ')
+            print(msg)
+        else:
+            print('DEBUG: ' + msg)
 
 
 def error(msg):
