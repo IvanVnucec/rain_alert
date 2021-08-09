@@ -43,6 +43,7 @@ jobs:
         uses: EndBug/add-and-commit@2bdc0a61a03738a1d1bda24d566ad0dbe3083d87
         with:
           add: 'logs/exec_timetable.json.aes'
+          default_author: github_actions
 
       # This step uses Github Actions secrets FAIL_MAIL_USERNAME and FAIL_MAIL_PASSWORD 
       # which are Gmail username and password respectively.
