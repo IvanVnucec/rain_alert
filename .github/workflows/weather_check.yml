@@ -44,6 +44,7 @@ jobs:
         with:
           add: 'logs/exec_timetable.json.aes --force'
           default_author: github_actions
+          message: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       # This step uses Github Actions secrets FAIL_MAIL_USERNAME and FAIL_MAIL_PASSWORD 
       # which are Gmail username and password respectively.
