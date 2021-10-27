@@ -16,7 +16,7 @@ from datetime import datetime
 import json
 from os import path, remove
 from pyAesCrypt import encryptFile, decryptFile
-from utils import debug, DEBUG
+from utils import debug
 
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
 TIMETABLE_PATH = path.abspath(path.join('logs', 'exec_timetable.json'))
@@ -55,14 +55,13 @@ class ExecTracker:
         debug('Showing execution timetable before encryption.')
         debug(self.exec_times)
 
-        if not DEBUG:
-            debug('Encrypting file.')
-            if path.exists(TIMETABLE_PATH_ENCRYPTED):
-                remove(TIMETABLE_PATH_ENCRYPTED)
-            encryptFile(TIMETABLE_PATH, TIMETABLE_PATH_ENCRYPTED, self.__password, BUFFERSIZE)
-        
-            debug('Deleting original file.')
-            remove(TIMETABLE_PATH)
+        debug('Encrypting file.')
+        if path.exists(TIMETABLE_PATH_ENCRYPTED):
+            remove(TIMETABLE_PATH_ENCRYPTED)
+        encryptFile(TIMETABLE_PATH, TIMETABLE_PATH_ENCRYPTED, self.__password, BUFFERSIZE)
+    
+        debug('Deleting original file.')
+        remove(TIMETABLE_PATH)
 
 
     def script_executed_today(self, location):
