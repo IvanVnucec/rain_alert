@@ -1,7 +1,7 @@
 import yaml
 from os import path
 
-DEBUG_PRINT = True
+DEBUG = True
 CREDENTIALS_FILE_PATH = path.abspath(
     path.join('credentials', 'credentials.yaml'))
 RECEIVERS_FILE_PATH = path.abspath(path.join('credentials', 'receivers.txt'))
@@ -63,7 +63,7 @@ def get_receivers():
 
 
 def debug(msg):
-    if DEBUG_PRINT:
+    if DEBUG:
         if type(msg) is dict:
             print('DEBUG: ')
             print(msg)

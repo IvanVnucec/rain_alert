@@ -16,7 +16,7 @@ from datetime import datetime
 import json
 from os import path, remove
 from pyAesCrypt import encryptFile, decryptFile
-from utils import debug
+from utils import debug, DEBUG
 
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
 TIMETABLE_PATH = path.abspath(path.join('logs', 'exec_timetable.json'))
@@ -32,15 +32,15 @@ class ExecTracker:
         if path.exists(TIMETABLE_PATH_ENCRYPTED):
             debug('Found exec timetable file')
             decryptFile(TIMETABLE_PATH_ENCRYPTED, TIMETABLE_PATH, self.__password, BUFFERSIZE)
-            self.timetable = open(TIMETABLE_PATH, 'r')
-            self.exec_times = json.load(self.timetable)
-            debug(self.exec_times)
         else:
             debug('Did not found exec timetable file. Creating new.')
             self.timetable = open(TIMETABLE_PATH, 'w')
             self.timetable.write('{}')
-            self.exec_times = {}
-        
+            self.timetable.close()
+
+        self.timetable = open(TIMETABLE_PATH, 'r')
+        self.exec_times = json.load(self.timetable)
+        debug(self.exec_times)
         self.timetable.close()
 
     def close(self):
@@ -55,13 +55,14 @@ class ExecTracker:
         debug('Showing execution timetable before encryption.')
         debug(self.exec_times)
 
-        debug('Encrypting file.')
-        if path.exists(TIMETABLE_PATH_ENCRYPTED):
-            remove(TIMETABLE_PATH_ENCRYPTED)
-
-        encryptFile(TIMETABLE_PATH, TIMETABLE_PATH_ENCRYPTED, self.__password, BUFFERSIZE)
-        debug('Deleting original file.')
-        remove(TIMETABLE_PATH)
+        if not DEBUG:
+            debug('Encrypting file.')
+            if path.exists(TIMETABLE_PATH_ENCRYPTED):
+                remove(TIMETABLE_PATH_ENCRYPTED)
+            encryptFile(TIMETABLE_PATH, TIMETABLE_PATH_ENCRYPTED, self.__password, BUFFERSIZE)
+        
+            debug('Deleting original file.')
+            remove(TIMETABLE_PATH)
 
 
     def script_executed_today(self, location):
