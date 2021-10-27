@@ -16,7 +16,7 @@ class Location:
             geolocator = geocoders.Nominatim(user_agent=GEOLOC_APP_NAME)
             self.point = geolocator.geocode(self.name)
         except Exception as e:
-            error(e)
+            error(str(e))
         else:
             if self.point == None:
                 error(f"Could not find '{self.name}'.")
