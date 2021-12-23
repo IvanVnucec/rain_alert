@@ -52,6 +52,13 @@ def main():
 
     debug('Closing execution timetable.')
     track.close()
+    debug('Checking if timetable is modified')
+    if track.is_timetable_modified():
+        debug('Timetable modified')
+        track.add_and_commit_timetable()
+    else:
+        debug('Timetable not modified')
+
     debug("Application finished.")
 
 

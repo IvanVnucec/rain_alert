@@ -14,7 +14,7 @@ Be sure that the password is kept as a secret.
 
 from datetime import datetime
 import json
-from os import path, remove
+from os import path, remove, system
 from pyAesCrypt import encryptFile, decryptFile
 from utils import debug
 
@@ -86,3 +86,12 @@ class ExecTracker:
             self.exec_times[location_name].append(local_time_str)
         else:
             self.exec_times[location_name] = [local_time_str]
+
+    def is_timetable_modified(self):
+        return self.timetable_modified
+    
+    def add_and_commit_timetable(self):
+        debug('git add encrypted timetable')
+        system(f'git add {TIMETABLE_PATH_ENCRYPTED}')
+        debug('git commit encrypted timetable')
+        system("git commit -m 'update timetable'")
