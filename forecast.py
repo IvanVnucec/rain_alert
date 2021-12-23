@@ -1,4 +1,5 @@
 from open_weather import OpenWeather
+from utils import debug
 
 DAY_START_HOUR = 6
 DAY_END_HOUR = 23
@@ -123,4 +124,9 @@ class Forecast:
         return (subject, plain, html)
 
     def rain_today(self):
+        # for debug only
+        debug(f"Hourly forecast in {self.location.get_location_name()}")
+        for byhour_forecast in self.forecastToday:
+            debug(str(byhour_forecast))
+
         return True in [forecast['b'] for forecast in self.forecastToday]
