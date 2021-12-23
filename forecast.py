@@ -1,9 +1,10 @@
 from open_weather import OpenWeather
-from utils import debug
+from utils import debug, get_github_actions_url
 
 DAY_START_HOUR = 6
 DAY_END_HOUR = 23
 RAIN_PROB_TRESHOLD = 0.5
+
 
 
 class Forecast:
@@ -51,6 +52,9 @@ class Forecast:
             hourStr = str(forecast['h'])
             probStr = str(round(forecast['p'] * 100))
             plain += f'{hourStr : <2}h {probStr : >3}%\n'
+        
+        action_url = get_github_actions_url()
+        plain += action_url + '\n\n'
 
         return plain
 
@@ -105,11 +109,15 @@ class Forecast:
             </tr>
         """
 
-        html += """</table>
+        html += """
+        </table>"""
+        action_url = get_github_actions_url()
+        html += f"""
+        <p><a href="{action_url}">GitHub Action Run</a></p>
     </body>
 </html>
 """
-
+        debug(html)
         return html
 
     def get_forecast_message(self):

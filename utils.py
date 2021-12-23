@@ -1,10 +1,11 @@
 import yaml
-from os import path
+from os import path, getenv
 
 DEBUG = True
 CREDENTIALS_FILE_PATH = path.abspath(
     path.join('credentials', 'credentials.yaml'))
 RECEIVERS_FILE_PATH = path.abspath(path.join('credentials', 'receivers.txt'))
+ACTION_URL_ENV = 'ACTION_URL' # defined in weather_check.yml
 
 
 def get_email_credentials():
@@ -60,6 +61,14 @@ def get_receivers():
             locations[location].append(receiver)
 
         return locations
+
+
+def get_github_actions_url():
+    action_url = getenv(ACTION_URL_ENV)
+    if action_url is None:
+        action_url = 'https://github.com/IvanVnucec/rain_alert/actions/workflows/weather_check.yml'
+    
+    return action_url
 
 
 def debug(msg):

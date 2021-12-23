@@ -1,4 +1,4 @@
-from utils import error, get_email_credentials, get_receivers, debug
+from utils import error, get_email_credentials, get_github_actions_url, get_receivers, debug
 from gmail import Gmail
 from forecast import Forecast
 from location import Location
@@ -13,6 +13,7 @@ def send_forecast_message(gmail, receiver, message):
 
 
 def main():
+    debug(get_github_actions_url())
     sender, password = get_email_credentials()
     receivers = get_receivers()
     if len(receivers) == 0: error('No receivers imported.')
