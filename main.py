@@ -1,3 +1,4 @@
+from datetime import time
 from utils import error, get_email_credentials, get_github_actions_url, get_receivers, debug
 from gmail import Gmail
 from forecast import Forecast
@@ -29,6 +30,11 @@ def main():
         executed_today = track.script_executed_today(location)
         time_to_send_email = location.get_local_time().hour >= SEND_EMAIL_HOUR
 
+        if executed_today:
+            debug('Script already executed today, no need to fetch forecast.')
+        if not time_to_send_email:
+            debug(f'Its not time to send an email. Waiting for {SEND_EMAIL_HOUR} A.M. local time.')
+
         if not executed_today and time_to_send_email:
             """ mark execution time only when time to send en email because 
             we don't want to exceed the number of free OpenWeather API calls """ 
@@ -47,9 +53,6 @@ def main():
                     send_forecast_message(gmail, email, message)
             else:
                 debug('It will not rain today.')
-
-        else:
-            debug('Script already executed today and/or its not time to send an email.')
 
     debug('Closing execution timetable.')
     track.close()
