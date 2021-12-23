@@ -91,7 +91,10 @@ class ExecTracker:
         return self.timetable_modified
     
     def add_and_commit_timetable(self):
+        system('git config --global user.email "you@example.com"')
+        system('git config --global user.name "GitHub Actions"')
         debug('git add encrypted timetable')
         system(f'git add {TIMETABLE_PATH_ENCRYPTED}')
         debug('git commit encrypted timetable')
         system("git commit -m 'update timetable'")
+        system("git push")
