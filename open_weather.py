@@ -1,6 +1,6 @@
 import requests
 from datetime import datetime
-from utils import get_openWeather_api_key, error
+from utils import get_openWeather_api_key, error, debug
 
 
 class OpenWeather:
@@ -29,6 +29,7 @@ class OpenWeather:
         forecastByHour = []
 
         data = self._get_data_from_api(latitude, longitude)
+        debug(data)
 
         timezoneOffset = data['timezone_offset']
         byHours = data['hourly']
