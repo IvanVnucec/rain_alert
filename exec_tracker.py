@@ -16,7 +16,7 @@ from datetime import datetime
 import json
 from os import path, remove, system
 from pyAesCrypt import encryptFile, decryptFile
-from utils import debug
+from utils import debug, get_github_actions_url
 
 DATE_FORMAT = '%m/%d/%Y, %H:%M:%S'
 TIMETABLE_PATH = path.abspath(path.join('logs', 'exec_timetable.json'))
@@ -96,5 +96,5 @@ class ExecTracker:
         debug('git add encrypted timetable')
         system(f'git add {TIMETABLE_PATH_ENCRYPTED}')
         debug('git commit encrypted timetable')
-        system("git commit -m 'update timetable'")
+        system(f"git commit -m 'update timetable {get_github_actions_url()}'")
         system("git push")
