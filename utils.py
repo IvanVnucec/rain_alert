@@ -66,7 +66,8 @@ def get_receivers():
 def get_github_actions_url():
     action_url = getenv(ACTION_URL_ENV)
     if action_url is None:
-        action_url = 'https://github.com/IvanVnucec/rain_alert/actions/workflows/weather_check.yml'
+        debug('Cannot get GitHub Actions link')
+        action_url = ''
     
     return action_url
 
