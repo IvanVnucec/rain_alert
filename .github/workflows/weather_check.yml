@@ -42,18 +42,18 @@ jobs:
 
       # This step uses Github Actions secrets FAIL_MAIL_USERNAME and FAIL_MAIL_PASSWORD 
       # which are Gmail username and password respectively.
-      - name: Send an email alert if there are any failed steps 
-        if: failure()
-        uses: dawidd6/action-send-mail@db36373cbed0fba7d5e12c338b580277550bdba1
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.FAIL_MAIL_USERNAME }}
-          password: ${{ secrets.FAIL_MAIL_PASSWORD }}
-          subject: rain_alert app run ${{ github.run_number }} failed
-          # send to itself
-          to: ${{ secrets.FAIL_MAIL_USERNAME }}
-          from: https://github.com/IvanVnucec/rain_alert
-          body: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          # TODO: Add the workflow logs to the attachments 
-          #attachments:
+      #- name: Send an email alert if there are any failed steps 
+      # if: failure()
+      # uses: dawidd6/action-send-mail@db36373cbed0fba7d5e12c338b580277550bdba1
+      # with:
+      #   server_address: smtp.gmail.com
+      #   server_port: 465
+      #   username: ${{ secrets.FAIL_MAIL_USERNAME }}
+      #   password: ${{ secrets.FAIL_MAIL_PASSWORD }}
+      #   subject: rain_alert app run ${{ github.run_number }} failed
+      #   # send to itself
+      #   to: ${{ secrets.FAIL_MAIL_USERNAME }}
+      #   from: https://github.com/IvanVnucec/rain_alert
+      #   body: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      #   # TODO: Add the workflow logs to the attachments 
+      #   #attachments:
