@@ -29,7 +29,7 @@ if any(prob >= 0.5 for _, prob in precipitation):
     # get first high probability of rain
     hour_start = [time for time, prob in precipitation if prob >= 0.5][0]
     # Construct message subject and HTML content
-    subject = f"Padaline u Zagrebu od {hour_start.strftime('%H:%M')}h"
+    subject = f"Zagreb: padaline od {hour_start.strftime('%H:%M')}h"
     content = """<!DOCTYPE html>
 <html>
     <head>
