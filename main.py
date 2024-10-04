@@ -1,35 +1,24 @@
 import os
-
-# Get hourly precipitation probability for Zagreb
-import urllib.request
-import json
-ZAGREB_WEATHER_API = "https://api.open-meteo.com/v1/forecast?latitude=45.8144&longitude=15.978&hourly=precipitation_probability&timezone=Europe%2FBerlin&forecast_days=1"
-with urllib.request.urlopen(ZAGREB_WEATHER_API) as response:
-    assert response.status == 200
-    data = json.loads(response.read())
-
 from datetime import datetime
-data_hourly = data["hourly"]
-precipitation = [(datetime.fromisoformat(time), int(prob)) for time, prob in zip(data_hourly["time"], data_hourly["precipitation_probability"])]
 
-# If there is a high probability of rain, send an email
-if any(prob >= 0.5 for _, prob in precipitation):
-    import smtplib
-    import ssl
-    from email.mime.text import MIMEText
-    from email.mime.multipart import MIMEMultipart
-    SSL_PORT = 465
-    SMTP_GMAIL = 'smtp.gmail.com'
-    context = ssl.create_default_context()
-    server = smtplib.SMTP_SSL(SMTP_GMAIL, SSL_PORT, context=context)
-    sender_email, password = os.getenv('SENDER_EMAIL'), os.getenv('SENDER_PASSWORD')
-    assert sender_email is not None and password is not None
-    server.login(sender_email, password)
 
+def get_hourly_forecast_for_zagreb() -> list[tuple[datetime, int]]:
+    import urllib.request
+    import json
+    ZAGREB_WEATHER_API = "https://api.open-meteo.com/v1/forecast?latitude=45.8144&longitude=15.978&hourly=precipitation_probability&timezone=Europe%2FBerlin&forecast_days=1"
+    with urllib.request.urlopen(ZAGREB_WEATHER_API) as response:
+        assert response.status == 200
+        data = json.loads(response.read())
+
+    data_hourly = data["hourly"]
+    forecast = [(datetime.fromisoformat(time), int(prob)) for time, prob in zip(data_hourly["time"], data_hourly["precipitation_probability"])]
+    return forecast
+
+def construct_html_table(forecast) -> tuple[str, str]:
     # get first high probability of rain
-    hour_start = [time for time, prob in precipitation if prob >= 0.5][0]
+    hour_start = [time for time, prob in forecast if prob >= 0.5]
     # Construct message subject and HTML content
-    subject = f"Zagreb: padaline od {hour_start.strftime('%H:%M')}h"
+    subject = f"Zagreb: padaline od {hour_start[0].strftime('%H:%M')}h"
     content = """<!DOCTYPE html>
 <html>
     <head>
@@ -45,7 +34,7 @@ if any(prob >= 0.5 for _, prob in precipitation):
                 text-align: center;
                 padding: 8px;
             }"""
-    for id,forecast in enumerate(precipitation):
+    for id,forecast in enumerate(forecast):
         alpha = round(forecast[1] * 0.6, 2)
         bColor = f'hsla(240, 100%, 50%, {alpha})'
         content += f"""
@@ -64,7 +53,7 @@ if any(prob >= 0.5 for _, prob in precipitation):
                 <th>Hour [h]</th>
                 <th>Probability [%]</th>
             </tr>"""
-    for id,forecast in enumerate(precipitation):
+    for id,forecast in enumerate(forecast):
         hourStr = str(forecast[0].hour)
         probStr = str(forecast[1])
         content += f"""
@@ -81,10 +70,22 @@ if any(prob >= 0.5 for _, prob in precipitation):
     </body>
 </html>
 """
-    print(content)
-    receivers = os.getenv('RECEIVERS')
-    assert receivers is not None
-    receivers = receivers.split('\n')
+    return subject, content
+
+def send_emails(receivers, forecast):
+    import smtplib
+    import ssl
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+    SSL_PORT = 465
+    SMTP_GMAIL = 'smtp.gmail.com'
+    context = ssl.create_default_context()
+    server = smtplib.SMTP_SSL(SMTP_GMAIL, SSL_PORT, context=context)
+    sender_email, password = os.getenv('SENDER_EMAIL'), os.getenv('SENDER_PASSWORD')
+    assert sender_email is not None and password is not None
+    server.login(sender_email, password)
+
+    subject, content = construct_html_table(forecast)
     for receiver in receivers:
         message = MIMEMultipart("alternative")
         message['From'] = sender_email
@@ -92,3 +93,13 @@ if any(prob >= 0.5 for _, prob in precipitation):
         message['Subject'] = subject
         message.attach(MIMEText(content, "html"))
         server.send_message(message, sender_email, receiver)
+
+def main():
+    forecast = get_hourly_forecast_for_zagreb()
+    rain_today = any(prob >= 0.5 for _,prob in forecast)
+    if rain_today:
+        receivers = os.getenv('RECEIVERS').split('\n')
+        send_emails(receivers, forecast)
+
+if __name__ == '__main__':
+    main()
