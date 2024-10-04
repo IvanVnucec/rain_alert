@@ -14,7 +14,7 @@ def get_hourly_forecast_for_zagreb():
     forecast = [(datetime.fromisoformat(time), int(prob)) for time, prob in zip(data_hourly["time"], data_hourly["precipitation_probability"])]
     return forecast
 
-def construct_html_table(forecast):
+def generate_email_contents(forecast):
     # get first high probability of rain
     hour_start = [time for time, prob in forecast if prob >= 0.5]
     # Construct message subject and HTML content
@@ -34,8 +34,8 @@ def construct_html_table(forecast):
                 text-align: center;
                 padding: 8px;
             }"""
-    for id,forecast in enumerate(forecast):
-        alpha = round(forecast[1] * 0.6, 2)
+    for id,time_prob in enumerate(forecast):
+        alpha = round(time_prob[1] * 0.6, 2)
         bColor = f'hsla(240, 100%, 50%, {alpha})'
         content += f"""
             table td#CELL{id} {{
@@ -53,13 +53,13 @@ def construct_html_table(forecast):
                 <th>Hour [h]</th>
                 <th>Probability [%]</th>
             </tr>"""
-    for id,forecast in enumerate(forecast):
-        hourStr = str(forecast[0].hour)
-        probStr = str(forecast[1])
+    for id,time_prob in enumerate(forecast):
+        hour = str(time_prob[0].hour)
+        prob = str(time_prob[1])
         content += f"""
             <tr>
-                <td>{hourStr}</td>
-                <td id="CELL{id}">{probStr}</td>
+                <td>{hour}</td>
+                <td id="CELL{id}">{prob}</td>
             </tr>
         """
 
@@ -84,7 +84,7 @@ def send_emails(receivers, forecast):
     sender_email, password = os.getenv('SENDER_EMAIL'), os.getenv('SENDER_PASSWORD')
     server.login(sender_email, password)
 
-    subject, content = construct_html_table(forecast)
+    subject, content = generate_email_contents(forecast)
     for receiver in receivers:
         message = MIMEMultipart("alternative")
         message['From'] = sender_email
