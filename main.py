@@ -1,7 +1,7 @@
 import os
 
 
-def get_hourly_forecast_for_zagreb() -> list[tuple]:
+def get_hourly_forecast_for_zagreb():
     import urllib.request
     import json
     ZAGREB_WEATHER_API = "https://api.open-meteo.com/v1/forecast?latitude=45.8144&longitude=15.978&hourly=precipitation_probability&timezone=Europe%2FBerlin&forecast_days=1"
@@ -14,7 +14,7 @@ def get_hourly_forecast_for_zagreb() -> list[tuple]:
     forecast = [(datetime.fromisoformat(time), int(prob)) for time, prob in zip(data_hourly["time"], data_hourly["precipitation_probability"])]
     return forecast
 
-def construct_html_table(forecast) -> tuple[str, str]:
+def construct_html_table(forecast):
     # get first high probability of rain
     hour_start = [time for time, prob in forecast if prob >= 0.5]
     # Construct message subject and HTML content
