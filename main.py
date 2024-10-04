@@ -1,8 +1,7 @@
 import os
-from datetime import datetime
 
 
-def get_hourly_forecast_for_zagreb() -> list[tuple[datetime, int]]:
+def get_hourly_forecast_for_zagreb() -> list[tuple]:
     import urllib.request
     import json
     ZAGREB_WEATHER_API = "https://api.open-meteo.com/v1/forecast?latitude=45.8144&longitude=15.978&hourly=precipitation_probability&timezone=Europe%2FBerlin&forecast_days=1"
@@ -10,6 +9,7 @@ def get_hourly_forecast_for_zagreb() -> list[tuple[datetime, int]]:
         assert response.status == 200
         data = json.loads(response.read())
 
+    from datetime import datetime
     data_hourly = data["hourly"]
     forecast = [(datetime.fromisoformat(time), int(prob)) for time, prob in zip(data_hourly["time"], data_hourly["precipitation_probability"])]
     return forecast
@@ -82,7 +82,6 @@ def send_emails(receivers, forecast):
     context = ssl.create_default_context()
     server = smtplib.SMTP_SSL(SMTP_GMAIL, SSL_PORT, context=context)
     sender_email, password = os.getenv('SENDER_EMAIL'), os.getenv('SENDER_PASSWORD')
-    assert sender_email is not None and password is not None
     server.login(sender_email, password)
 
     subject, content = construct_html_table(forecast)
