@@ -19,11 +19,9 @@ jobs:
         with:
           python-version: '3.8.5'
 
-      - name: Setup environment variables
+      - name: Run main application
         env:
           SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
           SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
           RECEIVERS: ${{ secrets.RECEIVERS }}
-
-      - name: Run main application
         run: python3 main.py
