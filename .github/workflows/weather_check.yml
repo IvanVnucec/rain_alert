@@ -2,58 +2,28 @@ name: Weather check
 
 on:
   schedule:
-    # Run every 25th minute
-    - cron:  '*/25 * * * *'
+    # Run every day at 3:00 UTC (5:00 CEST)
+    - cron:  '0 3 * * *'
 
   workflow_dispatch:
 
 jobs:
   run:
     runs-on: ubuntu-20.04
-    # if there is no artifact to download
-    continue-on-error: true
     env:
       ACTION_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
     steps:
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
-
-       # Fix Python version. Probably works with other versions.
       - uses: actions/setup-python@dc73133d4da04e56a135ae2246682783cc7c7cb6
         with:
           python-version: '3.8.5'
 
-      # This step is using CREDENTIALS and RECEIVERS Github Actions secrets. 
-      # View the README.md file for instructions about secrets contents.
-      - name: Create Credentials and Receivers files
+      - name: Setup environment variables
         env:
-          CREDENTIALS: ${{ secrets.CREDENTIALS }}
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
           RECEIVERS: ${{ secrets.RECEIVERS }}
-        run: |
-          echo "$CREDENTIALS" > credentials/credentials.yaml
-          echo "$RECEIVERS" > credentials/receivers.txt
 
-      - name: Install requirements
-        run: make init
-
-      # if Download exec timetable step failed still run the script
       - name: Run main application
-        run: make run
-
-      # This step uses Github Actions secrets FAIL_MAIL_USERNAME and FAIL_MAIL_PASSWORD 
-      # which are Gmail username and password respectively.
-      #- name: Send an email alert if there are any failed steps 
-      # if: failure()
-      # uses: dawidd6/action-send-mail@db36373cbed0fba7d5e12c338b580277550bdba1
-      # with:
-      #   server_address: smtp.gmail.com
-      #   server_port: 465
-      #   username: ${{ secrets.FAIL_MAIL_USERNAME }}
-      #   password: ${{ secrets.FAIL_MAIL_PASSWORD }}
-      #   subject: rain_alert app run ${{ github.run_number }} failed
-      #   # send to itself
-      #   to: ${{ secrets.FAIL_MAIL_USERNAME }}
-      #   from: https://github.com/IvanVnucec/rain_alert
-      #   body: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-      #   # TODO: Add the workflow logs to the attachments 
-      #   #attachments:
+        run: python3 main.py
