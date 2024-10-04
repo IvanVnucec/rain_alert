@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 
 def get_hourly_forecast_for_zagreb():
@@ -9,16 +10,16 @@ def get_hourly_forecast_for_zagreb():
         assert response.status == 200
         data = json.loads(response.read())
 
-    from datetime import datetime
     data_hourly = data["hourly"]
     forecast = [(datetime.fromisoformat(time), int(prob)) for time, prob in zip(data_hourly["time"], data_hourly["precipitation_probability"])]
     return forecast
 
 def generate_email_contents(forecast):
     # get first high probability of rain
-    hour_start = [time for time, prob in forecast if prob >= 0.5]
+    time_now = datetime.now().hour
+    hour_start = next(time for time,prob in forecast if time.hour >= time_now and prob >= 0.5)
     # Construct message subject and HTML content
-    subject = f"Zagreb: padaline od {hour_start[0].strftime('%H:%M')}h"
+    subject = f"Zagreb: padaline od {hour_start.strftime('%H:%M')}h"
     content = """<!DOCTYPE html>
 <html>
     <head>
@@ -95,7 +96,8 @@ def send_emails(receivers, forecast):
 
 def main():
     forecast = get_hourly_forecast_for_zagreb()
-    rain_today = any(prob >= 0.5 for _,prob in forecast)
+    time_now = datetime.now().hour
+    rain_today = any(prob >= 0.5 for time, prob in forecast if time.hour >= time_now)
     if rain_today:
         receivers = os.getenv('RECEIVERS').split('\n')
         send_emails(receivers, forecast)
