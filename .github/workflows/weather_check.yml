@@ -24,4 +24,10 @@ jobs:
           SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
           SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
           RECEIVERS: ${{ secrets.RECEIVERS }}
-        run: python3 main.py
+        run: |
+          python3 main.py
+          git config --global user.name "github-actions"
+          git config --global user.email ""
+          git add .
+          git diff-index --quiet HEAD || git commit -m "periodic update"
+          git push

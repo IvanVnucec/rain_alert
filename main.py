@@ -107,6 +107,10 @@ def main():
             send_emails(receivers, forecast)
     else:
         print("🌞🌞🌞")
+    with open('cnt.txt', 'r') as f:
+        cnt = int(f.readline())
+    with open('cnt.txt', 'w') as f:
+        f.write(str(cnt+1))
 
 if __name__ == '__main__':
     main()
