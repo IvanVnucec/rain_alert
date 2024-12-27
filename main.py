@@ -9,9 +9,10 @@ def get_hourly_forecast_for_zagreb():
     with urllib.request.urlopen(ZAGREB_WEATHER_API) as response:
         assert response.status == 200
         data = json.loads(response.read())
-
+    assert(data["hourly_units"]["time"] == "iso8601")
+    assert(data["hourly_units"]["precipitation_probability"] == "%")
     data_hourly = data["hourly"]
-    forecast = [(datetime.fromisoformat(time), int(prob)) for time, prob in zip(data_hourly["time"], data_hourly["precipitation_probability"])]
+    forecast = [(datetime.fromisoformat(time), float(prob)/100) for time, prob in zip(data_hourly["time"], data_hourly["precipitation_probability"])]
     return forecast
 
 def generate_email_contents(forecast):
