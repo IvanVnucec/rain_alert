@@ -99,9 +99,14 @@ def main():
     forecast = get_hourly_forecast_for_zagreb()
     time_now = datetime.now().hour
     rain_today = any(prob >= 0.5 for time, prob in forecast if time.hour >= time_now)
+    receivers = os.getenv('RECEIVERS')
     if rain_today:
-        receivers = os.getenv('RECEIVERS').split('\n')
-        send_emails(receivers, forecast)
+        print("🌧️🌧️🌧️")
+        if receivers:
+            receivers = receivers.split('\n')
+            send_emails(receivers, forecast)
+    else:
+        print("🌞🌞🌞")
 
 if __name__ == '__main__':
     main()
