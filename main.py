@@ -56,8 +56,8 @@ def generate_email_contents(forecast):
                 <th>Probability [%]</th>
             </tr>"""
     for id,time_prob in enumerate(forecast):
-        hour = str(time_prob[0].hour)
-        prob = str(time_prob[1])
+        hour = time_prob[0].hour
+        prob = round(time_prob[1] * 100)
         content += f"""
             <tr>
                 <td>{hour}</td>
